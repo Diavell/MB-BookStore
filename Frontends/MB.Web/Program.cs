@@ -1,4 +1,5 @@
 using MB.Shared.Services;
+using MB.Web.Handler;
 using MB.Web.Models;
 using MB.Web.Services;
 using MB.Web.Services.Interfaces;
@@ -18,10 +19,17 @@ builder.Services.AddHttpContextAccessor();
 //builder.Services.AddSingleton<PhotoHelper>();
 //builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 
-//builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
+builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
 //builder.Services.AddScoped<ClientCredentialTokenHandler>();
 
 //builder.Services.AddHttpClientServices(builder.Configuration);
+
+var serviceApiSettings = builder.Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
+builder.Services.AddHttpClient<IUserService, UserService>(opt => 
+{
+    opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
+}).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
 builder.Services.AddHttpClient<IIdentityService, IdentityService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts =>
 {
