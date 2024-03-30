@@ -14,6 +14,7 @@ using static IdentityServer4.IdentityServerConstants;
 namespace MB.IdentityServer.Controllers
 {
     [Authorize(LocalApi.PolicyName)]
+    [AllowAnonymous]
     [Route("api/[controller]/[action]")]
     [ApiController]
     public class UserController : ControllerBase

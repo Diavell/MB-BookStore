@@ -9,5 +9,6 @@ namespace MB.Web.Services.Interfaces
         Task<Response<bool>> SignIn(SigninInput signinInput);
         Task<TokenResponse> GetAccessTokenByRefreshToken();
         Task RevokeRefreshToken();
+        Task<Response<bool>> Register(RegisterInput registerInput);
     }
 }

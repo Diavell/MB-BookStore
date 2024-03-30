@@ -36,8 +36,6 @@ namespace MB.Web.Controllers
                 return View();
             }
 
-
-
             return RedirectToAction(nameof(Index), "Home");
         }
 
@@ -48,6 +46,30 @@ namespace MB.Web.Controllers
             await _identityService.RevokeRefreshToken();
 
             return RedirectToAction(nameof(HomeController.Index), "Home");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Register(RegisterInput registerInput)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var response = await _identityService.Register(registerInput);
+
+            if (!response.IsSuccess)
+            {
+                response.Error.ForEach(error => ModelState.AddModelError(string.Empty, error));
+                return View();
+            }
+
+            return RedirectToAction(nameof(Index), "Home");
         }
     }
 }

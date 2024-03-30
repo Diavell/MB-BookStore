@@ -1,0 +1,28 @@
+﻿
+@{
+    ViewData["Title"] = "Register";
+}
+@model MB.Web.Models.RegisterInput
+
+<form asp-controller="Auth" asp-action="Register" method="post" class="row g-3">
+    <div class="col-md-6">
+        <label asp-for="UserName" class="form-label">Username</label>
+        <input asp-for="UserName" value="erdemmm" type="text" class="form-control" id="inputUserName4">
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Email" class="form-label">Email</label>
+        <input asp-for="Email" value="erdemca@hotmail.com" type="email" class="form-control" id="inputEmail4">
+    </div>
+    <div class="col-md-6">
+        <label asp-for="Password" class="form-label">Password</label>
+        <input asp-for="Password" value="Password12*" type="password" class="form-control" id="inputPassword4">
+    </div>
+    <div class="col-md-6">
+        <label asp-for="City" class="form-label">City</label>
+        <input asp-for="City" value="Istanbul" type="text" class="form-control" id="inputCity">
+    </div>
+    <div class="col-12">
+        <button type="submit" class="btn btn-primary">Register</button>
+    </div>
+</form>
+

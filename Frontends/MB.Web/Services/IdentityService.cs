@@ -8,6 +8,7 @@ using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using System.Globalization;
 using System.Security.Claims;
+using System.Text;
 using System.Text.Json;
 
 namespace MB.Web.Services
@@ -88,6 +89,43 @@ namespace MB.Web.Services
             await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, authenticationResult.Principal, properties);
 
             return token;
+        }
+
+        public async Task<Response<bool>> Register(RegisterInput registerInput)
+        {
+            var disco = await _httpClient.GetDiscoveryDocumentAsync(new DiscoveryDocumentRequest
+            {
+                Address = _serviceApiSettings.IdentityBaseUri,
+                Policy = new DiscoveryPolicy
+                {
+                    RequireHttps = false
+                }
+            });
+
+            if (disco.IsError)
+            {
+                throw disco.Exception;
+            }
+
+            var jsonData = JsonSerializer.Serialize(registerInput);
+
+            StringContent stringContent = new(jsonData, Encoding.UTF8, "application/json");
+
+            var response = await _httpClient.PostAsync("api/user/signup", stringContent);
+
+            if (!response.IsSuccessStatusCode)
+            {
+                var responseContent = await response.Content.ReadAsStringAsync();
+
+                var errorDto = JsonSerializer.Deserialize<ErrorDto>(responseContent, new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                });
+
+                return Response<bool>.Fail(errorDto.Errors, 400);
+            }
+
+            return Response<bool>.Success(200);
         }
 
         public async Task RevokeRefreshToken()
@@ -202,8 +240,6 @@ namespace MB.Web.Services
             await _httpContextAccessor.HttpContext.SignInAsync(CookieAuthenticationDefaults.AuthenticationScheme, claimsPrincipal, authenticationProperties);
 
             return Response<bool>.Success(200);
-
-
         }
     }
 }
