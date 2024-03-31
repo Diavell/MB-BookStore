@@ -15,21 +15,24 @@ builder.Services.AddControllersWithViews();
 builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
 builder.Services.AddHttpContextAccessor();
-//builder.Services.AddAccessTokenManagement();
+builder.Services.AddAccessTokenManagement();
 //builder.Services.AddSingleton<PhotoHelper>();
-//builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
-
+builder.Services.AddScoped<ISharedIdentityService, SharedIdentityService>();
 builder.Services.AddScoped<ResourceOwnerPasswordTokenHandler>();
-//builder.Services.AddScoped<ClientCredentialTokenHandler>();
+builder.Services.AddScoped<ClientCredentialTokenHandler>();
 
 //builder.Services.AddHttpClientServices(builder.Configuration);
 
 var serviceApiSettings = builder.Configuration.GetSection("ServiceApiSettings").Get<ServiceApiSettings>();
+builder.Services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
 builder.Services.AddHttpClient<IUserService, UserService>(opt => 
 {
     opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
+builder.Services.AddHttpClient<ICatalogService, CatalogService>(opt =>
+{
+    opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Catalog.Path}");
+}).AddHttpMessageHandler<ClientCredentialTokenHandler>();
 builder.Services.AddHttpClient<IIdentityService, IdentityService>(opt =>
 {
     opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
