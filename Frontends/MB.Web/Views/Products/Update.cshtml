@@ -1,0 +1,95 @@
+﻿﻿@{
+    ViewData["Title"] = "Update";
+}
+@model ProductUpdateInput
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Update Product</h5>
+
+                <form asp-controller="Products" asp-action="Update" method="post" enctype="multipart/form-data">
+                    <div asp-validation-summary="ModelOnly"></div>
+                    <input type="hidden" asp-for="Id" />
+                    <input type="hidden" asp-for="Picture" />
+                    <div class="mb-3">
+                        <label for="exampleFormControlInput1" class="form-label" asp-for="CategoryId"></label>
+                        <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categoryList" id="categoryField"></select>
+                        <span class="text-danger" asp-validation-for="CategoryId"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Name" class="form-label"></label>
+                        <input asp-for="Name" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Name"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Price" class="form-label"></label>
+                        <input asp-for="Price" class="form-control" />
+                        <span class="text-danger" asp-validation-for="Price"></span>
+                    </div>
+
+                    <div class="mb-3">
+                        <label asp-for="Description" class="form-label"></label>
+                        <textarea asp-for="Description" class="form-control"></textarea>
+                        <span class="text-danger" asp-validation-for="Description"></span>
+                    </div>
+
+                    <div class="mb-3" id="authorField">
+                        <label asp-for="Feature.Author" class="form-label"></label>
+                        <input asp-for="Feature.Author" class="form-control" id="authorFieldValue" />
+                        <span class="text-danger" asp-validation-for="Feature.Author"></span>
+                    </div>
+
+                    <div class="mb-3" id="ISBNField">
+                        <label asp-for="Feature.ISBN" class="form-label"></label>
+                        <input asp-for="Feature.ISBN" class="form-control" id="ISBNFieldValue" />
+                        <span class="text-danger" asp-validation-for="Feature.ISBN"></span>
+                    </div>
+
+                    <div class="mb-3" id="publishedDateField">
+                        <label asp-for="Feature.PublishedDate" class="form-label"></label>
+                        <input asp-for="Feature.PublishedDate" class="form-control" id="publishedDateFieldValue" type="date"/>
+                        <span class="text-danger" asp-validation-for="Feature.PublishedDate"></span>
+                    </div>
+
+                    @* <div class="mb-3">
+
+                    <label class="form-label" asp-for="PhotoFormFile"></label>
+
+                    <input type="file" asp-for="PhotoFormFile" class="form-control" />
+                    </div> *@
+
+                    <button type="submit" class="btn btn-primary">Save Product</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.getElementById("categoryField").addEventListener("change", fieldVisibility);
+    function fieldVisibility() {
+        var selectedCategory = document.getElementById("categoryField");
+
+        var selectedCategoryValue = selectedCategory.options[selectedCategory.selectedIndex].text;
+        console.log(selectedCategoryValue);
+
+        var authorField = document.getElementById("authorField");
+        var ISBNField = document.getElementById("ISBNField");
+        var publishedDateField = document.getElementById("publishedDateField");
+        if (selectedCategoryValue == "kitap") {
+            authorField.style.display = "none";
+            document.getElementById("authorFieldValue").value = "";
+
+            ISBNField.style.display = "none";
+            document.getElementById("ISBNFieldValue").value = "";
+
+            publishedDateField.style.display = "none";
+            document.getElementById("publishedDateFieldValue").value = "";
+        } else {
+            authorField.style.display = "block";
+        }
+    }
+</script>

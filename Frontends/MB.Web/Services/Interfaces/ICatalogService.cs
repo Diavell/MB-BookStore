@@ -8,7 +8,7 @@ namespace MB.Web.Services.Interfaces
 
         Task<List<CategoryViewModel>> GetAllCategoriesAsync();
 
-        Task<ProductViewModel> GetProductByIdAsync(int productid);
+        Task<ProductViewModel> GetProductByIdAsync(string productid);
 
         Task<bool> CreateProductAsync(ProductCreateInput productCreateInput);
 

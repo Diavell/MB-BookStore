@@ -29,16 +29,18 @@ builder.Services.AddHttpClient<IUserService, UserService>(opt =>
 {
     opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
 }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+
 builder.Services.AddHttpClient<ICatalogService, CatalogService>(opt =>
 {
     opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Catalog.Path}");
 }).AddHttpMessageHandler<ClientCredentialTokenHandler>();
+
 builder.Services.AddHttpClient<IIdentityService, IdentityService>(opt =>
 {
     opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
 });
 
-builder.Services.AddHttpClient<IIdentityService, IdentityService>();
+//builder.Services.AddHttpClient<IIdentityService, IdentityService>();
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme).AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, opts =>
 {
     opts.LoginPath = "/Auth/SignIn";

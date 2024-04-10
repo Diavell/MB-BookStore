@@ -1,5 +1,4 @@
-﻿
-@{
+﻿@{
     ViewData["Title"] = "Index";
 }
 @model List<ProductViewModel>
@@ -9,42 +8,58 @@
         <div class="card">
             <div class="card-header">
                 <h4 class="card-title">Products</h4>
+                <a asp-controller="Products" asp-action="Create" class="btn btn-primary mb-3">Create Product</a>
             </div>
-            <div class="card-body">
-                @if (Model.Any())
-                {
-                    <div class="table-responsive">
-                        <table class="table table-striped">
-                            <thead>
+
+            @if (Model.Any())
+            {
+                <div>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Price</th>
+                                <th>Description</th>
+                                <th>Category</th>
+                                <th>Author</th>
+                                <th>ISBN</th>
+                                <th>Published Date</th>
+                                <th>Picture</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var product in Model)
+                            {
                                 <tr>
-                                    <th>Id</th>
-                                    <th>Name</th>
-                                    <th>Price</th>
-                                    <th>Category</th>
-                                    <th>Actions</th>
+                                    <td>@product.Id</td>
+                                    <td>@product.Name</td>
+                                    <td>@product.Price</td>
+                                    <td>@product.Description</td>
+                                    <td>@product.Category.Name</td>
+                                    <td>@product.Feature.Author</td>
+                                    <td>@product.Feature.ISBN</td>
+                                    <td>@product.Feature.PublishedDate</td>
+                                    <td>
+                                        <img src="@product.Picture" alt="@product.Name" style="width: 100px; height: 100px;" />
+                                    </td>
+                                    <td>
+                                        <a asp-controller="Products" asp-action="Update" asp-route-id="@product.Id" class="btn btn-primary">Update</a>
+                                        <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+                                    </td>
                                 </tr>
-                            </thead>
-                            <tbody>
-                                @foreach (var item in Model)
-                                {
-                                    <tr>
-                                        <td>@item.Id</td>
-                                        <td>@item.Name</td>
-                                        <td>@item.Price</td>
-                                        <td>@item.Category.Name</td>
-                                    </tr>
-                                }
-                            </tbody>
-                        </table>
-                    </div>
-                }
-                else
-                {
-                    <div class="alert alert-info">
-                        Product not found
-                    </div>
-                }
-            </div>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+            else
+            {
+                <div class="alert alert-info">
+                    Product not found
+                </div>
+            }
         </div>
     </div>
 </div>

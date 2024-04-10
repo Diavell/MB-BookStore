@@ -56,7 +56,7 @@ namespace MB.Web.Services
             return products.Data;
         }
 
-        public async Task<ProductViewModel> GetProductByIdAsync(int productid)
+        public async Task<ProductViewModel> GetProductByIdAsync(string productid)
         {
             var response = await _httpClient.GetAsync($"products/{productid}");
 
