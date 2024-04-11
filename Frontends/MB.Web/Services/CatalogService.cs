@@ -1,4 +1,5 @@
 ﻿using MB.Shared.Dtos;
+using MB.Web.Helpers;
 using MB.Web.Models;
 using MB.Web.Models.Catalog;
 using MB.Web.Services.Interfaces;
@@ -8,14 +9,25 @@ namespace MB.Web.Services
     public class CatalogService : ICatalogService
     {
         private readonly HttpClient _httpClient;
+        private readonly IPhotoStockService _photoStockService;
+        private readonly PhotoHelper _photoHelper;
 
-        public CatalogService(HttpClient httpClient)
+        public CatalogService(HttpClient httpClient, IPhotoStockService photoStockService, PhotoHelper photoHelper)
         {
             _httpClient = httpClient;
+            _photoStockService = photoStockService;
+            _photoHelper = photoHelper;
         }
 
         public async Task<bool> CreateProductAsync(ProductCreateInput productCreateInput)
         {
+            var resultPhoto = await _photoStockService.UploadPhoto(productCreateInput.PhotoFormFile);
+
+            if (resultPhoto != null)
+            {
+                productCreateInput.Picture = resultPhoto.Url;
+            }
+
             var response = await _httpClient.PostAsJsonAsync<ProductCreateInput>("products", productCreateInput);
 
             return response.IsSuccessStatusCode;
@@ -53,6 +65,11 @@ namespace MB.Web.Services
 
             var products = await response.Content.ReadFromJsonAsync<Response<List<ProductViewModel>>>();
 
+            products.Data.ForEach(x =>
+            {
+                x.Picture = _photoHelper.GetPhotoUrl(x.Picture);
+            });
+
             return products.Data;
         }
 
@@ -72,6 +89,14 @@ namespace MB.Web.Services
 
         public async Task<bool> UpdateProductAsync(ProductUpdateInput productUpdateInput)
         {
+            var resultPhoto = await _photoStockService.UploadPhoto(productUpdateInput.PhotoFormFile);
+
+            if (resultPhoto != null)
+            {
+                await _photoStockService.DeletePhoto(productUpdateInput.Picture);
+                productUpdateInput.Picture = resultPhoto.Url;
+            }
+
             var response = await _httpClient.PutAsJsonAsync<ProductUpdateInput>("products", productUpdateInput);
 
             return response.IsSuccessStatusCode;

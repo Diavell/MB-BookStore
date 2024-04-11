@@ -14,9 +14,7 @@ namespace MB.Web.Models.Catalog
         [Required(ErrorMessage = "Category is required")]
         public string CategoryId { get; set; }
 
-        [Display(Name = "Product Picture")]
-        //[Required(ErrorMessage = "Picture is required")]
-        public string? Picture { get; set; }
+        public string Picture { get; set; }
 
         [Display(Name = "Product Price")]
         [Required(ErrorMessage = "Price is required")]
@@ -27,5 +25,9 @@ namespace MB.Web.Models.Catalog
         public string Description { get; set; }
 
         public FeatureViewModel Feature { get; set; }
+
+        [Display(Name = "Product Picture")]
+        [Required(ErrorMessage = "Picture is required")]
+        public IFormFile PhotoFormFile { get; set; }
     }
 }
