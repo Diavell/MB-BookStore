@@ -14,7 +14,7 @@ namespace MB.Web.Models.Catalog
         [Required(ErrorMessage = "Category is required")]
         public string CategoryId { get; set; }
 
-        public string Picture { get; set; }
+        public string? Picture { get; set; }
 
         [Display(Name = "Product Price")]
         [Required(ErrorMessage = "Price is required")]

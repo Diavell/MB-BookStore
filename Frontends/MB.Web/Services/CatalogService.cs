@@ -67,7 +67,7 @@ namespace MB.Web.Services
 
             products.Data.ForEach(x =>
             {
-                x.Picture = _photoHelper.GetPhotoUrl(x.Picture);
+                x.StockPictureUrl = _photoHelper.GetPhotoUrl(x.Picture);
             });
 
             return products.Data;
@@ -83,6 +83,8 @@ namespace MB.Web.Services
             }
 
             var products = await response.Content.ReadFromJsonAsync<Response<ProductViewModel>>();
+
+            products.Data.StockPictureUrl = _photoHelper.GetPhotoUrl(products.Data.Picture);
 
             return products.Data;
         }

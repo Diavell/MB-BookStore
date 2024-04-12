@@ -42,6 +42,7 @@ namespace MB.Web.Controllers
 
             ViewBag.categoryList = new SelectList(categories, "Id", "Name");
 
+            productCreateInput.Picture ??= string.Empty;
             productCreateInput.Feature.Author ??= string.Empty;
             productCreateInput.Feature.ISBN ??= string.Empty;
             productCreateInput.Feature.PublishedDate ??= DateTime.MinValue;

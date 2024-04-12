@@ -42,7 +42,7 @@
                                     <td>@product.Feature.ISBN</td>
                                     <td>@product.Feature.PublishedDate</td>
                                     <td>
-                                        <img class="img-thumbnail" src="@product.Picture" alt="@product.Name" style="width: 100px; height: 100px;" />
+                                        <img class="img-thumbnail" src="@product.StockPictureUrl" alt="@product.Name" style="width: 100px; height: 100px;" />
                                     </td>
                                     <td>
                                         <a asp-controller="Products" asp-action="Update" asp-route-id="@product.Id" class="btn btn-primary">Update</a>
