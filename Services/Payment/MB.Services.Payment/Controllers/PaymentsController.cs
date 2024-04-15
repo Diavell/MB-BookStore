@@ -1,4 +1,5 @@
-﻿using MB.Shared.ControllerBases;
+﻿using MB.Services.Payment.Models;
+using MB.Shared.ControllerBases;
 using MB.Shared.Dtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -10,7 +11,7 @@ namespace MB.Services.Payment.Controllers
     public class PaymentsController : CustomBaseController
     {
         [HttpPost]
-        public IActionResult ReceivePayment()
+        public IActionResult ReceivePayment(PaymentDto paymentDto)
         {
             return CreateActionResultInstance(Response<NoContent>.Success(200));
         }
