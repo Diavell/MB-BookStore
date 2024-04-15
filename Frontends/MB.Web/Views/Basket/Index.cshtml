@@ -1,0 +1,52 @@
+﻿@{
+    ViewData["Title"] = "Index";
+}
+
+@model BasketViewModel
+
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Basket</h5>
+
+                @if (Model != null && Model.BasketItems.Any())
+                {
+                    <table class="table table-striped">
+                        <tr>
+                            <th>Quantity</th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+
+                        @foreach (var item in Model.BasketItems)
+                        {
+                            <tr>
+                                <td>
+                                    <a class="btn btn-sm btn-secondary" asp-controller="Basket" asp-action="DecreaseQuantity" asp-route-productId="@item.ProductId">-</a>
+                                    <span id="quantity_@item.ProductId">@item.Quantity</span>
+                                    <a class="btn btn-sm btn-secondary" asp-controller="Basket" asp-action="IncreaseQuantity" asp-route-productId="@item.ProductId">+</a>
+                                </td>
+                                <td>@item.ProductName</td>
+                                <td>@item.Price TL</td>
+                                <td>
+                                    <a class="btn btn-danger" asp-controller="Basket" asp-action="RemoveBasketItem" asp-route-productId="@item.ProductId">Remove</a>
+                                </td>
+                            </tr>
+                        }
+
+                        <tr>
+                            <th>Total Price:</th>
+                            <th colspan="2">@Model.TotalPrice TL</th>
+                        </tr>
+                    </table>
+                }
+                else
+                {
+                    <div class="alert alert-info">Basket is empty</div>
+                }
+            </div>
+        </div>
+    </div>
+</div>

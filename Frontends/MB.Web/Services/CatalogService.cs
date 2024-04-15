@@ -82,11 +82,11 @@ namespace MB.Web.Services
                 return null;
             }
 
-            var products = await response.Content.ReadFromJsonAsync<Response<ProductViewModel>>();
+            var product = await response.Content.ReadFromJsonAsync<Response<ProductViewModel>>();
 
-            products.Data.StockPictureUrl = _photoHelper.GetPhotoUrl(products.Data.Picture);
+            product.Data.StockPictureUrl = _photoHelper.GetPhotoUrl(product.Data.Picture);
 
-            return products.Data;
+            return product.Data;
         }
 
         public async Task<bool> UpdateProductAsync(ProductUpdateInput productUpdateInput)
