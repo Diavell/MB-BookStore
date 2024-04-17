@@ -41,6 +41,9 @@
                             <th colspan="2">@Model.TotalPrice TL</th>
                         </tr>
                     </table>
+
+                    <a class="btn btn-success" asp-controller="Order" asp-action="Checkout">Payment Information</a>
+                    <a class="btn btn-warning" asp-controller="Home" asp-action="Index">Keep Shopping</a>
                 }
                 else
                 {

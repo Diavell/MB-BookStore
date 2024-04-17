@@ -6,6 +6,7 @@
         public string ProductId { get; set; }
         public string ProductName { get; set; }
         public decimal Price { get; set; }
+
         //public decimal? DiscountAppliedPrice { get; set; }
         //public decimal GetCurrentPrice { get => DiscountAppliedPrice != null ? Price : Price; }
         //public void AppliedDiscount(decimal discount)

@@ -13,6 +13,11 @@ namespace MB.Web.Extensions
 
             services.AddHttpClient<IClientCredentialTokenService, ClientCredentialTokenService>();
 
+            services.AddHttpClient<IIdentityService, IdentityService>(opt =>
+            {
+                opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
+            });
+
             services.AddHttpClient<IUserService, UserService>(opt =>
             {
                 opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
@@ -37,11 +42,11 @@ namespace MB.Web.Extensions
             {
                 opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Payment.Path}");
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
-
-            services.AddHttpClient<IIdentityService, IdentityService>(opt =>
+            
+            services.AddHttpClient<IOrderService, OrderService>(opt =>
             {
-                opt.BaseAddress = new Uri(serviceApiSettings.IdentityBaseUri);
-            });
+                opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Order.Path}");
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
         }
     }
 }
