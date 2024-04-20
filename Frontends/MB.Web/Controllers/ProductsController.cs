@@ -78,13 +78,7 @@ namespace MB.Web.Controllers
                 Price = product.Price,
                 Picture = product.Picture,
                 CategoryId = product.CategoryId,
-                Feature = product.Feature,
-                //Feature = new FeatureViewModel
-                //{
-                //    ISBN = product.Feature.ISBN,
-                //    Author = product.Feature.Author,
-                //    PublishedDate = product.Feature.PublishedDate
-                //}
+                Feature = product.Feature
             };
 
             productUpdateInput.Picture ??= string.Empty;

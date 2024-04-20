@@ -10,6 +10,8 @@ namespace MB.Web.Services.Interfaces
 
         Task<ProductViewModel> GetProductByIdAsync(string productid);
 
+        Task<ProductViewModel> GetProductByNameAsync(string productid);
+
         Task<bool> CreateProductAsync(ProductCreateInput productCreateInput);
 
         Task<bool> UpdateProductAsync(ProductUpdateInput productUpdateInput);

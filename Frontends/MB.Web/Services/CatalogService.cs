@@ -88,6 +88,22 @@ namespace MB.Web.Services
 
             return product.Data;
         }
+        
+        public async Task<ProductViewModel> GetProductByNameAsync(string productName)
+        {
+            var response = await _httpClient.GetAsync($"products/{productName}");
+
+            if (!response.IsSuccessStatusCode)
+            {
+                return null;
+            }
+
+            var product = await response.Content.ReadFromJsonAsync<Response<ProductViewModel>>();
+
+            product.Data.StockPictureUrl = _photoHelper.GetPhotoUrl(product.Data.Picture);
+
+            return product.Data;
+        }
 
         public async Task<bool> UpdateProductAsync(ProductUpdateInput productUpdateInput)
         {

@@ -23,6 +23,7 @@ namespace MB.Web.Controllers
             return View(await _catalogService.GetAllProductsAsync());
         }
 
+        [HttpGet]
         public async Task<IActionResult> Detail(string id)
         {
             return View(await _catalogService.GetProductByIdAsync(id));

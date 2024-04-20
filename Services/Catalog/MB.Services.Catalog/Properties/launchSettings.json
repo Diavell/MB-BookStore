@@ -9,7 +9,7 @@
     }
   },
   "profiles": {
-    "MB.BookStore.Catalog": {
+    "MB.Services.Catalog": {
       "commandName": "Project",
       "dotnetRunMessages": true,
       "launchBrowser": false,

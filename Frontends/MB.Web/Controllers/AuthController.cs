@@ -39,13 +39,38 @@ namespace MB.Web.Controllers
             return RedirectToAction(nameof(Index), "Home");
         }
 
-        public async Task<IActionResult> LogOut()
+        public IActionResult AdminSignIn()
         {
-            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+            return View();
+        }
 
-            await _identityService.RevokeRefreshToken();
+        [HttpPost]
+        public async Task<IActionResult> AdminSignIn(SigninInput signinInput)
+        {
+            string AdminEmail = "erdemc@hotmail.com";
+            string AdminPassword = "Password12*";
+            string Error = "Invalid username or password";
 
-            return RedirectToAction(nameof(HomeController.Index), "Home");
+            if (!ModelState.IsValid)
+            {
+                return View();
+            }
+
+            var response = await _identityService.SignIn(signinInput);
+
+            if (signinInput.Email != AdminEmail || signinInput.Password != AdminPassword)
+            {
+                ModelState.AddModelError(string.Empty, Error);
+                return View();
+            }
+
+            if (!response.IsSuccess)
+            {
+                response.Error.ForEach(error => ModelState.AddModelError(string.Empty, error));
+                return View();
+            }
+
+            return RedirectToAction(nameof(Index), "Admin");
         }
 
         public IActionResult Register()
@@ -70,6 +95,15 @@ namespace MB.Web.Controllers
             }
 
             return RedirectToAction(nameof(Index), "Home");
+        }
+
+        public async Task<IActionResult> LogOut()
+        {
+            await HttpContext.SignOutAsync(CookieAuthenticationDefaults.AuthenticationScheme);
+
+            await _identityService.RevokeRefreshToken();
+
+            return RedirectToAction(nameof(HomeController.Index), "Home");
         }
     }
 }
