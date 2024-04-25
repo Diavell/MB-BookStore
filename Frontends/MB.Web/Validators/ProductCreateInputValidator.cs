@@ -1,17 +1,17 @@
-﻿using FluentValidation;
-using MB.Web.Models.Catalog;
+﻿//using FluentValidation;
+//using MB.Web.Models.Catalog;
 
-namespace MB.Web.Validators
-{
-    public class ProductCreateInputValidator : AbstractValidator<ProductCreateInput>
-    {
-        public ProductCreateInputValidator()
-        {
-            RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required");
-            RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Category is required");
-            RuleFor(x => x.Price).NotEmpty().WithMessage("Price is required");
-            RuleFor(x => x.Description).NotEmpty().WithMessage("Stock is required");
-            RuleFor(x => x.PhotoFormFile).NotEmpty().WithMessage("Picture is required");
-        }
-    }
-}
+//namespace MB.Web.Validators
+//{
+//    public class ProductCreateInputValidator : AbstractValidator<ProductCreateInput>
+//    {
+//        public ProductCreateInputValidator()
+//        {
+//            RuleFor(x => x.Name).NotEmpty().WithMessage("Name is required");
+//            RuleFor(x => x.CategoryId).NotEmpty().WithMessage("Category is required");
+//            RuleFor(x => x.Price).NotEmpty().WithMessage("Price is required");
+//            RuleFor(x => x.Description).NotEmpty().WithMessage("Stock is required");
+//            RuleFor(x => x.PhotoFormFile).NotEmpty().WithMessage("Picture is required");
+//        }
+//    }
+//}

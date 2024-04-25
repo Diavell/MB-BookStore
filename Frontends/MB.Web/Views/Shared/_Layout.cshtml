@@ -67,17 +67,24 @@
                                 <a class="nav-link" asp-area="" asp-controller="Home" asp-action="Index" style="padding: 10px;">Home</a>
                             </li>
                         </ul>
-                        <form asp-controller="Home" asp-action="Detail" class=" d-flex mx-5" role="search">
-                            <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                            <button class="btn btn-outline-success" value="">Search</button>
-                        </form>
-                        @* <form asp-controller="Home" asp-action="Detail" method="get">
-                    <p>
-                    Title: <input type="text" name="SearchString" />
-                    <input type="submit" value="Filter" />
-                    </p>
-                    </form> *@
 
+                        <ul class="nav nav-underline">
+                            <li><input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onchange="updateRouteId()"></li>
+                            <li><a id="searchButton" class="btn btn-success" asp-controller="Home" asp-action="SearchProduct">Search</a></li>
+                        </ul>
+
+                        <script>
+                            let originalHref = "http://localhost:5010/Home/SearchProduct";
+
+                            function updateRouteId() {
+                                const searchTerm = document.getElementById("searchInput").value;
+                                const searchButton = document.getElementById("searchButton");
+                                if (!originalHref)
+                                    originalHref = searchButton.href;
+                                searchButton.href = originalHref + "/" + searchTerm;
+                            }
+                        </script>
+                        
                         @if (User.Identity.IsAuthenticated)
                         {
                             <ul class="navbar-nav">
@@ -87,7 +94,7 @@
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a class="dropdown-item" asp-controller="User" asp-action="Index">Profile</a></li>
-                                        <li><a class="dropdown-item" asp-controller="Order" asp-action="CheckoutHistory">Ödeme geçmişim</a></li>
+                                        <li><a class="dropdown-item" asp-controller="Order" asp-action="CheckoutHistory">Order History</a></li>
                                         <li><a class="dropdown-item" asp-controller="Basket" asp-action="Index">Basket</a></li>
                                         <li><a class="dropdown-item" asp-controller="Auth" asp-action="LogOut">LogOut</a></li>
                                     </ul>

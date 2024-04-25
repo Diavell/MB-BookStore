@@ -6,7 +6,7 @@
 <div>
     <h1>Welcome to Admin Panel</h1>
 
-    <p>Here you can manage the books and users.</p>
+    <p>Here you can manage the products and users.</p>
 
     <p>Click on the links in the bottom to manage the products and users.</p>
     
@@ -18,7 +18,20 @@
 
     <div class="col-md-3">
         <div class="list-group">
+            <a asp-controller="Categories" asp-action="Index" class="list-group-item list-group-item-action">Categories</a>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="list-group">
             <a asp-controller="User" asp-action="AllUsers" class="list-group-item list-group-item-action">Users</a>
         </div>
     </div>
+
+    <div class="col-md-3">
+        <div class="list-group">
+            <a asp-controller="Order" asp-action="Index" class="list-group-item list-group-item-action">Orders</a>
+        </div>
+    </div>
+
 </div>

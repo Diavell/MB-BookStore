@@ -44,5 +44,30 @@ namespace MB.Services.Catalog.Services
             }
             return Response<CategoryDto>.Success(_mapper.Map<CategoryDto>(category), 200);
         }
+
+        public async Task<Response<NoContent>> UpdateAsync(CategoryDto categoryDto)
+        {
+            var updateCategory = _mapper.Map<Category>(categoryDto);
+            var result = await _categoryCollection.FindOneAndReplaceAsync(x => x.Id == categoryDto.Id, updateCategory);
+            if (result == null)
+            {
+                return Response<NoContent>.Fail("Product not found", 404);
+            }
+            return Response<NoContent>.Success(204);
+        }
+
+        public async Task<Response<NoContent>> DeleteAsync(string id)
+        {
+            var result = await _categoryCollection.DeleteOneAsync(x => x.Id == id);
+            if (result.DeletedCount > 0)
+            {
+                return Response<NoContent>.Success(204);
+            }
+            else
+            {
+                return Response<NoContent>.Fail("Product not found", 404);
+            }
+        }
+        
     }
 }

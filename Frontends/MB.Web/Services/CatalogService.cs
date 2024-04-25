@@ -3,6 +3,7 @@ using MB.Web.Helpers;
 using MB.Web.Models;
 using MB.Web.Models.Catalog;
 using MB.Web.Services.Interfaces;
+using System.Net.Http.Json;
 
 namespace MB.Web.Services
 {
@@ -32,10 +33,24 @@ namespace MB.Web.Services
 
             return response.IsSuccessStatusCode;
         }
+        
+        public async Task<bool> CreateCategoryAsync(CategoryCreateInput categoryCreateInput)
+        {
+            var response = await _httpClient.PostAsJsonAsync<CategoryCreateInput>("categories", categoryCreateInput);
+
+            return response.IsSuccessStatusCode;
+        }
 
         public async Task<bool> DeleteProductAsync(string productId)
         {
             var response = await _httpClient.DeleteAsync($"products/{productId}");
+
+            return response.IsSuccessStatusCode;
+        }
+        
+        public async Task<bool> DeleteCategoryAsync(string categoryId)
+        {
+            var response = await _httpClient.DeleteAsync($"categories/{categoryId}");
 
             return response.IsSuccessStatusCode;
         }
@@ -89,20 +104,18 @@ namespace MB.Web.Services
             return product.Data;
         }
         
-        public async Task<ProductViewModel> GetProductByNameAsync(string productName)
+        public async Task<CategoryViewModel> GetCategoryByIdAsync(string categoryId)
         {
-            var response = await _httpClient.GetAsync($"products/{productName}");
+            var response = await _httpClient.GetAsync($"categories/{categoryId}");
 
             if (!response.IsSuccessStatusCode)
             {
                 return null;
             }
 
-            var product = await response.Content.ReadFromJsonAsync<Response<ProductViewModel>>();
+            var category = await response.Content.ReadFromJsonAsync<Response<CategoryViewModel>>();
 
-            product.Data.StockPictureUrl = _photoHelper.GetPhotoUrl(product.Data.Picture);
-
-            return product.Data;
+            return category.Data;
         }
 
         public async Task<bool> UpdateProductAsync(ProductUpdateInput productUpdateInput)
@@ -116,6 +129,13 @@ namespace MB.Web.Services
             }
 
             var response = await _httpClient.PutAsJsonAsync<ProductUpdateInput>("products", productUpdateInput);
+
+            return response.IsSuccessStatusCode;
+        }
+        
+        public async Task<bool> UpdateCategoryAsync(CategoryUpdateInput categoryUpdateInput)
+        {
+            var response = await _httpClient.PutAsJsonAsync<CategoryUpdateInput>("categories", categoryUpdateInput);
 
             return response.IsSuccessStatusCode;
         }

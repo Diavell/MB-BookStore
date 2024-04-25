@@ -1,8 +1,4 @@
-﻿using MB.Services.Catalog.Models;
-using MongoDB.Bson.Serialization.Attributes;
-using MongoDB.Bson;
-
-namespace MB.Services.Catalog.Dtos
+﻿namespace MB.Services.Catalog.Dtos
 {
     public class ProductDto
     {

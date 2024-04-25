@@ -1,11 +1,8 @@
-using FluentValidation.AspNetCore;
 using MB.Shared.Services;
 using MB.Web.Extensions;
 using MB.Web.Handler;
 using MB.Web.Helpers;
 using MB.Web.Models;
-using MB.Web.Services;
-using MB.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication.Cookies;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,7 +10,9 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 
-builder.Services.AddFluentValidationAutoValidation();
+//builder.Services.AddFluentValidationAutoValidation();
+
+//builder.Services.AddControllersWithViews().AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<CheckoutInfoInputValidator>());
 
 builder.Services.Configure<ClientSettings>(builder.Configuration.GetSection("ClientSettings"));
 builder.Services.Configure<ServiceApiSettings>(builder.Configuration.GetSection("ServiceApiSettings"));
@@ -42,6 +41,7 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Home/Error");
     app.UseDeveloperExceptionPage();
 }
+
 app.UseStaticFiles();
 
 app.UseRouting();

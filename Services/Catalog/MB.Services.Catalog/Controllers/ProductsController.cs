@@ -1,8 +1,6 @@
 ﻿using MB.Services.Catalog.Dtos;
 using MB.Services.Catalog.Services;
 using MB.Shared.ControllerBases;
-using Microsoft.AspNetCore.Cors.Infrastructure;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MB.Services.Catalog.Controllers

@@ -10,7 +10,6 @@
                 <h4 class="card-title">Products</h4>
                 <a asp-controller="Products" asp-action="Create" class="btn btn-primary mb-3">Create Product</a>
             </div>
-
             @if (Model.Any())
             {
                 <div>
@@ -40,13 +39,38 @@
                                     <td>@product.Category.Name</td>
                                     <td>@product.Feature.Author</td>
                                     <td>@product.Feature.ISBN</td>
-                                    <td>@product.Feature.PublishedDate</td>
+                                    <td>
+                                        @if (@product.Feature.PublishedDate.Value.ToShortDateString() != "1 Oca 0001")
+                                        {
+                                            @product.Feature.PublishedDate.Value.ToShortDateString()
+                                        }
+                                    </td>
                                     <td>
                                         <img class="img-thumbnail" src="@product.StockPictureUrl" alt="@product.Name" style="width: 100px; height: 100px;" />
                                     </td>
                                     <td>
                                         <a asp-controller="Products" asp-action="Update" asp-route-id="@product.Id" class="btn btn-primary">Update</a>
-                                        <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
+                                        <!-- Modal -->
+                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Product will be deleted!</h1>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                        <p>Are you sure you want to delete the product?</p>
+                                                        <p>This action cannot be undone!</p>
+                                                    </div>
+                                                    <div class="modal-footer">
+                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                        <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- Modal End -->
                                     </td>
                                 </tr>
                             }

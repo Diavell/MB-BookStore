@@ -1,14 +1,14 @@
-﻿
-@{
-    ViewData["Title"] = "AllUsers";
+﻿@{
+    ViewData["Title"] = "Index";
 }
-@model List<UserViewModel>
+@model List<CategoryViewModel>
 
 <div class="row">
     <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-                <h4 class="card-title">Users</h4>
+                <h4 class="card-title">Categories</h4>
+                <a asp-controller="Categories" asp-action="Create" class="btn btn-primary mb-3">Create Category</a>
             </div>
             @if (Model.Any())
             {
@@ -16,43 +16,38 @@
                     <table class="table table-striped">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>UserName</th>
-                                <th>Email</th>
-                                <th>City</th>
+                                <th>Id</th>
+                                <th>Name</th>
+                                <th>Actions</th>
                             </tr>
                         </thead>
                         <tbody>
-                            @foreach (var user in Model)
+                            @foreach (var category in Model)
                             {
                                 <tr>
-                                    <td>@user.Id</td>
-                                    <td>@user.UserName</td>
-                                    <td>@user.Email</td>
-                                    <td>@user.City</td>
+                                    <td>@category.Id</td>
+                                    <td>@category.Name</td>
                                     <td>
-                                        <a asp-controller="User" asp-action="Update" asp-route-id="@user.Id" class="btn btn-primary">Update</a>
+                                        <a asp-controller="Categories" asp-action="Update" asp-route-id="@category.Id" class="btn btn-primary">Update</a>
                                         <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-                                        <!-- Modal -->
                                         <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                             <div class="modal-dialog">
                                                 <div class="modal-content">
                                                     <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">User will be deleted!</h1>
+                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Category will be deleted!</h1>
                                                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                                                     </div>
                                                     <div class="modal-body">
-                                                        <p>Are you sure you want to delete the user?</p>
+                                                        <p>Are you sure you want to delete the category?</p>
                                                         <p>This action cannot be undone!</p>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                        <a asp-controller="User" asp-action="Delete" asp-route-id="@user.Id" class="btn btn-danger">Delete User</a>
+                                                        <a asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
                                                     </div>
                                                 </div>
                                             </div>
                                         </div>
-                                        <!-- Modal End -->
                                     </td>
                                 </tr>
                             }
@@ -63,7 +58,7 @@
             else
             {
                 <div class="alert alert-info">
-                    Product not found
+                    Category not found
                 </div>
             }
         </div>

@@ -1,7 +1,6 @@
 ﻿using MB.Services.Catalog.Dtos;
 using MB.Services.Catalog.Services;
 using MB.Shared.ControllerBases;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
 namespace MB.Services.Catalog.Controllers
@@ -35,6 +34,20 @@ namespace MB.Services.Catalog.Controllers
         public async Task<IActionResult> Create(CategoryDto categoryDto)
         {
             var response = await _categoryService.CreateAsync(categoryDto);
+            return CreateActionResultInstance(response);
+        }
+
+        [HttpPut]
+        public async Task<IActionResult> Update(CategoryDto categoryDto)
+        {
+            var response = await _categoryService.UpdateAsync(categoryDto);
+            return CreateActionResultInstance(response);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Delete(string id)
+        {
+            var response = await _categoryService.DeleteAsync(id);
             return CreateActionResultInstance(response);
         }
     }

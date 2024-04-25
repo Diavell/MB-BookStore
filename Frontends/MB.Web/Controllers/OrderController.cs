@@ -40,7 +40,14 @@ namespace MB.Web.Controllers
                 return View();
             }
 
-            return RedirectToAction(nameof(SuccessfulCheckout), new { orderId = orderStatus.OrderId });
+            return RedirectToAction(nameof(ReceivingPayment), new { orderId = orderStatus.OrderId });
+        }
+
+        public IActionResult ReceivingPayment(int orderId)
+        {
+            ViewBag.OrderId = orderId;
+
+            return View();
         }
 
         public IActionResult SuccessfulCheckout(int orderId)
@@ -48,6 +55,11 @@ namespace MB.Web.Controllers
             ViewBag.OrderId = orderId;
 
             return View();
+        }
+
+        public async Task<IActionResult> CheckoutHistory()
+        {
+            return View(await _orderService.GetOrder());
         }
     }
 }
