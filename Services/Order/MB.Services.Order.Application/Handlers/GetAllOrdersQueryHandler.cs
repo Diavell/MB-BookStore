@@ -8,18 +8,18 @@ using Microsoft.EntityFrameworkCore;
 
 namespace MB.Services.Order.Application.Handlers
 {
-    public class GetOrdersByUserIdQueryHandler : IRequestHandler<GetOrdersByUserIdQuery, Response<List<OrderDto>>>
+    public class GetAllOrdersQueryHandler : IRequestHandler<GetAllOrdersQuery, Response<List<OrderDto>>>
     {
         private readonly OrderDbContext _context;
 
-        public GetOrdersByUserIdQueryHandler(OrderDbContext context)
+        public GetAllOrdersQueryHandler(OrderDbContext context)
         {
             _context = context;
         }
 
-        public async Task<Response<List<OrderDto>>> Handle(GetOrdersByUserIdQuery request, CancellationToken cancellationToken)
+        public async Task<Response<List<OrderDto>>> Handle(GetAllOrdersQuery request, CancellationToken cancellationToken)
         {
-            var orders = await _context.Orders.Include(x => x.OrderItems).Where(x => x.BuyerId == request.UserId).ToListAsync();  
+            var orders = await _context.Orders.Include(x => x.OrderItems).ToListAsync();
 
             if (!orders.Any())
             {

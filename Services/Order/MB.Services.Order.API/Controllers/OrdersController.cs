@@ -25,7 +25,7 @@ namespace MB.Services.Order.API.Controllers
         [HttpGet]
         public async Task<IActionResult> GetOrders()
         {
-            var response = await _mediator.Send(new GetOrdersByUserIdQuery { UserId = _sharedIdentityService.GetUserId});
+            var response = await _mediator.Send(new GetOrdersByUserIdQuery { UserId = _sharedIdentityService.GetUserId });
             return CreateActionResultInstance(response);
         }
 
@@ -33,6 +33,14 @@ namespace MB.Services.Order.API.Controllers
         public async Task<IActionResult> SaveOrder(CreateOrderCommand createOrderCommand)
         {
             var response = await _mediator.Send(createOrderCommand);
+            return CreateActionResultInstance(response);
+        }
+
+        [Route("[action]")]
+        [HttpGet]
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var response = await _mediator.Send(new GetAllOrdersQuery());
             return CreateActionResultInstance(response);
         }
     }

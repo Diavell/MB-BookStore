@@ -9,5 +9,7 @@ namespace MB.Web.Services.Interfaces
         Task SuspendOrder(CheckoutInfoInput checkoutInfoInput);
 
         Task<List<OrderViewModel>> GetOrder();
+
+        Task<List<OrderViewModel>> GetAllOrders();
     }
 }

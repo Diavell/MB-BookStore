@@ -96,6 +96,13 @@ namespace MB.Web.Services
 
             return response.Data;
         }
+        
+        public async Task<List<OrderViewModel>> GetAllOrders()
+        {
+            var response = await _httpClient.GetFromJsonAsync<Response<List<OrderViewModel>>>("orders/getallorders");
+
+            return response.Data;
+        }
 
         public Task SuspendOrder(CheckoutInfoInput checkoutInfoInput)
         {

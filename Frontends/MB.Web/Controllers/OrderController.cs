@@ -61,5 +61,21 @@ namespace MB.Web.Controllers
         {
             return View(await _orderService.GetOrder());
         }
+        
+        public async Task<IActionResult> GetAllOrders()
+        {
+            var orders = await _orderService.GetAllOrders();
+
+            orders = orders.OrderByDescending(x => x.Id).ToList();
+
+            return View(orders);
+        }
+
+        public async Task<IActionResult> GetOrderById(int id)
+        {
+            var orders = await _orderService.GetAllOrders();
+
+            return View(orders.FirstOrDefault(x => x.Id == id));
+        }
     }
 }

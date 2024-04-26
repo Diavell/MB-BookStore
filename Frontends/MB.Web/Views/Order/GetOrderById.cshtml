@@ -1,0 +1,83 @@
+﻿
+@{
+    ViewData["Title"] = "GetOrderById";
+}
+@model OrderViewModel
+
+<style>
+    .order-details {
+        margin: 20px;
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        background-color: #f9f9f9;
+    }
+
+        .order-details h4 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .order-details table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        .order-details th, .order-details td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            text-align: left;
+        }
+
+        .order-details th {
+            background-color: #f2f2f2;
+        }
+</style>
+
+<div class="order-details">
+    <h4>Order Details</h4>
+    <hr />
+
+    <dl class="dl-horizontal">
+        <dt>Order ID:</dt>
+        <dd>@Html.DisplayFor(model => model.Id)</dd>
+        <dt>Created Date:</dt>
+        <dd>@Html.DisplayFor(model => model.CreatedDate)</dd>
+        <dt>Buyer ID:</dt>
+        <dd>@Html.DisplayFor(model => model.BuyerId)</dd>
+        <dt>Address:</dt>
+        <dd>
+            <ul>
+                <li><strong>Province:</strong> @Html.DisplayFor(model => model.Address.Province)</li>
+                <li><strong>District:</strong> @Html.DisplayFor(model => model.Address.District)</li>
+                <li><strong>Street:</strong> @Html.DisplayFor(model => model.Address.Street)</li>
+                <li><strong>Line:</strong> @Html.DisplayFor(model => model.Address.Line)</li>
+                <li><strong>Zip Code:</strong> @Html.DisplayFor(model => model.Address.ZipCode)</li>
+            </ul>
+        </dd>
+    </dl>
+
+    <h4>Order Items</h4>
+    <table>
+        <thead>
+            <tr>
+                <th>Product Name</th>
+                <th>Quantity</th>
+                <th>Price</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model.OrderItems)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
+                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+
+    <a class="btn btn-primary mt-3" href="#" onclick="history.back();">Geri</a>
+</div>
