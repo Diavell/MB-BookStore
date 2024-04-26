@@ -19,6 +19,15 @@ namespace MB.Web.Controllers
         {
             var basket = await _basketService.Get();
 
+            var basketItemCount = 0;
+
+            foreach (var item in basket.BasketItems)
+            {
+
+                basketItemCount += item.Quantity;
+            }
+
+            ViewBag.BasketItemCount = basketItemCount;
             ViewBag.Basket = basket;
 
             return View(new CheckoutInfoInput());
