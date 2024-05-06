@@ -59,7 +59,12 @@ namespace MB.Web.Controllers
 
             await _userService.UpdateUserAsync(userViewModel);
 
-            return RedirectToAction(nameof(AllUsers));
+            if (User.Identity.Name == "Admin")
+            {
+                return RedirectToAction(nameof(AllUsers));
+            }
+
+            return RedirectToAction(nameof(Index));
         }
 
         public async Task<IActionResult> Delete(string id)

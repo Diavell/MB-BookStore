@@ -3,64 +3,66 @@
 }
 @model List<CategoryViewModel>
 
-<div class="row">
-    <div class="col-md-12">
-        <div class="card">
-            <div class="card-header">
-                <h4 class="card-title">Categories</h4>
-                <a asp-controller="Categories" asp-action="Create" class="btn btn-primary mb-3">Create Category</a>
-            </div>
-            @if (Model.Any())
-            {
-                <div>
-                    <table class="table table-striped">
-                        <thead>
-                            <tr>
-                                <th>Id</th>
-                                <th>Name</th>
-                                <th>Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @foreach (var category in Model)
-                            {
+<body style="background-color:antiquewhite">
+    <div class="row pt-3 pb-3" style="background-color:#FFFFFF; border-radius: 50px;">
+        <div class="col-md-12">
+            <div class="card" style="border-top-left-radius: 50px; border-top-right-radius: 50px;">
+                <div class="card-header" style="border-top-left-radius: 50px; border-top-right-radius: 50px;">
+                    <h4 class="card-title">Categories</h4>
+                    <a asp-controller="Categories" asp-action="Create" class="btn btn-primary mb-3">Create Category</a>
+                </div>
+                @if (Model.Any())
+                {
+                    <div>
+                        <table class="table table-striped" style="border-radius: 50px;">
+                            <thead>
                                 <tr>
-                                    <td>@category.Id</td>
-                                    <td>@category.Name</td>
-                                    <td>
-                                        <a asp-controller="Categories" asp-action="Update" asp-route-id="@category.Id" class="btn btn-primary">Update</a>
-                                        <button type="button" class="btn btn-danger" data-bs-toggle="modal" data-bs-target="#exampleModal">Delete</button>
-                                        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                            <div class="modal-dialog">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h1 class="modal-title fs-5" id="exampleModalLabel">Category will be deleted!</h1>
-                                                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <p>Are you sure you want to delete the category?</p>
-                                                        <p>This action cannot be undone!</p>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                        <a asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
+                                    <th>Id</th>
+                                    <th>Name</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var category in Model)
+                                {
+                                    <tr>
+                                        <td>@category.Id</td>
+                                        <td>@category.Name</td>
+                                        <td>
+                                            <a asp-controller="Categories" asp-action="Update" asp-route-id="@category.Id" class="btn btn-primary">Update</a>
+                                            <button type="button" class="btn btn-danger center ml-3" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-trash-fill"></i></button>
+                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                                                <div class="modal-dialog">
+                                                    <div class="modal-content">
+                                                        <div class="modal-header">
+                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Category will be deleted!</h1>
+                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                        </div>
+                                                        <div class="modal-body">
+                                                            <p>Are you sure you want to delete the category?</p>
+                                                            <p>This action cannot be undone!</p>
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                                            <a asp-controller="Categories" asp-action="Delete" asp-route-id="@category.Id" class="btn btn-danger">Delete</a>
+                                                        </div>
                                                     </div>
                                                 </div>
                                             </div>
-                                        </div>
-                                    </td>
-                                </tr>
-                            }
-                        </tbody>
-                    </table>
-                </div>
-            }
-            else
-            {
-                <div class="alert alert-info">
-                    Category not found
-                </div>
-            }
+                                        </td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                }
+                else
+                {
+                    <div class="alert alert-info">
+                        Category not found
+                    </div>
+                }
+            </div>
         </div>
     </div>
-</div>
+</body>

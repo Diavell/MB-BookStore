@@ -4,21 +4,28 @@
 }
 @model CategoryCreateInput
 
-<div class="row">
-    <div class="col-md-8 offset-md-2">
-        <div class="card">
-            <div class="card-body">
-                <h5 class="card-title">Create Category</h5>
-                <form asp-controller="Categories" asp-action="Create" method="post" enctype="multipart/form-data">
-                    <div asp-validation-summary="ModelOnly"></div>
-                    <div class="mb-3">
-                        <label asp-for="Name" class="form-label"></label>
-                        <input asp-for="Name" class="form-control" />
-                        <span class="text-danger" asp-validation-for="Name"></span>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save Category</button>
-                </form>
+<body style="background-color:antiquewhite">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="card" style="background-color:#FFFFFF; border-radius: 50px;">
+                <div class="card-body">
+                    <h5 class="card-title">Create Category</h5>
+                    <form asp-controller="Categories" asp-action="Create" method="post" enctype="multipart/form-data">
+                        <div asp-validation-summary="ModelOnly"></div>
+                        <div class="mb-3">
+                            <label asp-for="Name" class="form-label"></label>
+                            <input asp-for="Name" class="form-control" />
+                            <span class="text-danger" asp-validation-for="Name"></span>
+                        </div>
+                        <div class="row mb-3 mt-4 ml-0" style="width: 1070px;">
+                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
+    <div class="p-5 m-5"></div>
+    <div class="p-5 m-5"></div>
+    <div class="p-3"></div>
+</body>

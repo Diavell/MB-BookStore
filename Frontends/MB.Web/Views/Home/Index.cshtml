@@ -1,37 +1,95 @@
 ﻿@{
     ViewData["Title"] = "Home Page";
-    var count = 0;
+    var random = new Random();
+    var selectedIndexes = new HashSet<int>();
+    var count = 1;
+    Layout = "~/Views/Shared/_LayoutHome.cshtml";
 }
 @model List<ProductViewModel>
 
-<h2>Products</h2>
-<hr />
+<body style="background-color:antiquewhite">
+    <div class="row">
+        <div class="col text-center py-5">
+            <h1 class="text-secondary text-uppercase font-italic common-title">Products</h1>
+        </div>
+    </div>
 
-@if (Model != null)
-{
-    @foreach (var product in Model)
+    @if (Model != null)
     {
-        count++;
-        if (count == 1||count % 3 == 1)
-        {
-            @Html.Raw("<div class='row row-cols-1 row-cols-md-3 g-4 mb-2'>")
-        }
-
-        <div class="col">
-            <div class="card h-100">
-                <img src="@product.StockPictureUrl" class="card-img-top" alt="@product.Name">
-                <div class="card-body">
-                    <h5 class="card-title">@product.Name</h5>
-                    <p class="card-text">@product.ShortDescription</p>
-                    <h4 class="text-primary">@product.Price TL</h4>
-                    <a class="btn btn-success" asp-route-id="@product.Id" asp-controller="Home" asp-action="Detail">Detail</a>
+        <!-- Gallery -->
+        <section class="gallery">
+            <div class="container">
+                <div class="row mb-4 first-row justify-content-around align-items-center">
+                    @foreach (var product in Model)
+                    {
+                        <div class="col-xl-3 col-lg-4 col-sm-8 rotate pb-5">
+                            <div class="card text-center mb-3 book-card mx-auto">
+                                <div class="card-header">
+                                    <h4 class="font-weight-light">@product.Name</h4>
+                                </div>
+                                <div class="card-body">
+                                    <img src="@product.StockPictureUrl" class="img-fluid rounded">
+                                </div>
+                                @if (product.CategoryId == "662a3f396f0750356c3b2280")
+                                {
+                                    <div class="card-footer">
+                                        By @product.Feature.Author
+                                    </div>
+                                }
+                                <div class="back">
+                                    <div class="back-content">
+                                        <h1 class="text-uppercase font-weight-light font-italic">Only For</h1>
+                                        <h3 class="mb-3">@product.Price</h3>
+                                        <p>@product.ShortDescription</p>
+                                        <a asp-route-id="@product.Id" asp-controller="Home" asp-action="Detail" class="btn btn-outline-danger px-4">Details</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 </div>
             </div>
-        </div>
+        </section>
+        <!-- End of Gallery -->
 
-        if (count % 3 == 0)
-        {
-            @Html.Raw("</div>")
-        }
+        <section class="suggested-books">
+            <div class="container-fluid">
+                <!-- Title -->
+                <div class="row">
+                    <div class="col text-center py-5">
+                        <h1 class="text-secondary text-uppercase font-italic common-title text-light">Suggested Books</h1>
+                    </div>
+                </div>
+                <!-- End of Title -->
+
+                <div class="row">
+                    <div class="col-lg-10 col-md-8 col-sm-10 mx-auto books">
+
+                        @for (int i = 0; i < 4; i++)
+                        {
+                            int randomIndex;
+
+                            do
+                            {
+                                randomIndex = random.Next(Model.Count);
+                            } while (selectedIndexes.Contains(randomIndex) || Model[randomIndex].CategoryId != "662a3f396f0750356c3b2280");
+
+                            selectedIndexes.Add(randomIndex);
+                            var product = Model[randomIndex];
+
+                            <a asp-route-id="@product.Id" asp-controller="Home" asp-action="Detail">
+                                <img src="@product.StockPictureUrl" class="img-fluid book book-@count">
+                            </a>
+
+                            count++;
+                        }
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- End Suggested Books -->
     }
-}
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fas fa-angle-up"></i>
+    </a>
+</body>

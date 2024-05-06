@@ -65,7 +65,7 @@ namespace MB.Web.Services
                     ProductId = x.ProductId,
                     ProductName = x.ProductName,
                     Price = x.Price,
-                    PictureUrl = "",
+                    PictureUrl = x.Picture,
                     Quantity = x.Quantity
                 });
             });

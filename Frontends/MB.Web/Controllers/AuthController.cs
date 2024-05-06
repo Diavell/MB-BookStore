@@ -83,6 +83,13 @@ namespace MB.Web.Controllers
         {
             if (!ModelState.IsValid)
             {
+                ModelState.AddModelError(string.Empty, "Enter all fields correctly");
+                return View();
+            }
+
+            if (registerInput.Password != registerInput.RePassword)
+            {
+                ModelState.AddModelError(string.Empty, "Passwords do not match");
                 return View();
             }
 

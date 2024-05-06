@@ -7,41 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Include="wwwroot\img\book.png" />
     <None Include="wwwroot\img\header-bg.jpeg" />
     <None Include="wwwroot\img\heart.png" />
     <None Include="wwwroot\img\items-wrapper-bg.jpg" />
-    <None Include="wwwroot\img\libraries\library1.jpg" />
-    <None Include="wwwroot\img\libraries\library2.jpg" />
-    <None Include="wwwroot\img\libraries\library3.jpg" />
-    <None Include="wwwroot\img\libraries\library4.jpg" />
-    <None Include="wwwroot\img\libraries\library5.jpg" />
-    <None Include="wwwroot\img\libraries\library6.jpg" />
-    <None Include="wwwroot\img\libraries\library7.jpg" />
-    <None Include="wwwroot\img\libraries\library8.jpg" />
     <None Include="wwwroot\img\logo.png" />
-    <None Include="wwwroot\img\Popular-Books\A-Tale-of-Two-Cities.jpg" />
-    <None Include="wwwroot\img\Popular-Books\Don-Quixote.jpg" />
-    <None Include="wwwroot\img\Popular-Books\One-Hundred-Years-of-Solitude.jpg" />
-    <None Include="wwwroot\img\suggested-books\book1.jpg" />
-    <None Include="wwwroot\img\suggested-books\book2.jpg" />
-    <None Include="wwwroot\img\suggested-books\book3.jpg" />
-    <None Include="wwwroot\img\suggested-books\book4.jpg" />
     <None Include="wwwroot\img\title-img.png" />
     <None Include="wwwroot\img\wood-bg.jpeg" />
     <None Include="wwwroot\img\writers-bg.jpeg" />
-    <None Include="wwwroot\img\writers\Charles_Dickens-book1.jpg" />
-    <None Include="wwwroot\img\writers\Charles_Dickens-book2.jpg" />
-    <None Include="wwwroot\img\writers\Charles_Dickens.jpg" />
-    <None Include="wwwroot\img\writers\Jane_Austen-book1.jpg" />
-    <None Include="wwwroot\img\writers\Jane_Austen-book2.jpg" />
-    <None Include="wwwroot\img\writers\Jane_Austen.jpg" />
-    <None Include="wwwroot\img\writers\Victor_Hugo-book1.jpg" />
-    <None Include="wwwroot\img\writers\Victor_Hugo-book2.jpg" />
-    <None Include="wwwroot\img\writers\Victor_Hugo.jpg" />
-    <None Include="wwwroot\img\writers\William_Shakespeare-book1.jpg" />
-    <None Include="wwwroot\img\writers\William_Shakespeare-book2.jpg" />
-    <None Include="wwwroot\img\writers\William_Shakespeare.jpg" />
   </ItemGroup>
 
   <ItemGroup>
@@ -53,6 +25,10 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\Shared\MB.Shared\MB.Shared.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Models\User\" />
   </ItemGroup>
 
 </Project>

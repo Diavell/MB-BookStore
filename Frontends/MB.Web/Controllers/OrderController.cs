@@ -6,8 +6,8 @@ namespace MB.Web.Controllers
 {
     public class OrderController : Controller
     {
-        public readonly IOrderService _orderService;
-        public readonly IBasketService _basketService;
+        private readonly IOrderService _orderService;
+        private readonly IBasketService _basketService;
 
         public OrderController(IOrderService orderService, IBasketService basketService)
         {
@@ -68,14 +68,18 @@ namespace MB.Web.Controllers
 
         public async Task<IActionResult> CheckoutHistory()
         {
-            return View(await _orderService.GetOrder());
+            var orders = await _orderService.GetOrder();
+
+            orders = orders.OrderByDescending(x => x.CreatedDate).ToList();
+
+            return View(orders);
         }
         
         public async Task<IActionResult> GetAllOrders()
         {
             var orders = await _orderService.GetAllOrders();
 
-            orders = orders.OrderByDescending(x => x.Id).ToList();
+            orders = orders.OrderByDescending(x => x.CreatedDate).ToList();
 
             return View(orders);
         }

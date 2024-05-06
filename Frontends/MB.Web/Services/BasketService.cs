@@ -8,7 +8,6 @@ namespace MB.Web.Services
     public class BasketService : IBasketService
     {
         private readonly HttpClient _httpClient;
-        private readonly ISharedIdentityService _sharedIdentityService;
 
         public BasketService(HttpClient httpClient)
         {

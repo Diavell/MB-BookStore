@@ -34,10 +34,13 @@ namespace MB.Web.Controllers
                     ProductName = product.Name,
                     Price = product.Price,
                     Quantity = 1,
+                    Picture = product.StockPictureUrl
                     //DiscountAppliedPrice = 0
                 };
 
                 await _basketService.AddBasketItem(basketItem);
+
+                ViewBag.Picture = product.StockPictureUrl;
             }
 
             return RedirectToAction(nameof(Index));

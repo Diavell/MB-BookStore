@@ -47,6 +47,11 @@ namespace MB.Web.Extensions
             {
                 opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Order.Path}");
             }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
+            
+            services.AddHttpClient<IAdminService, AdminService>(opt =>
+            {
+                opt.BaseAddress = new Uri($"{serviceApiSettings.GatewayBaseUri}/{serviceApiSettings.Admin.Path}");
+            }).AddHttpMessageHandler<ResourceOwnerPasswordTokenHandler>();
         }
     }
 }

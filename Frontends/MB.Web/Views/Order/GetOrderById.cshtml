@@ -4,80 +4,77 @@
 }
 @model OrderViewModel
 
-<style>
-    .order-details {
-        margin: 20px;
-        padding: 20px;
-        border: 1px solid #ccc;
-        border-radius: 5px;
-        background-color: #f9f9f9;
-    }
-
-        .order-details h4 {
-            margin-bottom: 10px;
-            color: #333;
-        }
-
-        .order-details table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 10px;
-        }
-
-        .order-details th, .order-details td {
-            border: 1px solid #ddd;
-            padding: 8px;
-            text-align: left;
-        }
-
-        .order-details th {
-            background-color: #f2f2f2;
-        }
-</style>
-
-<div class="order-details">
-    <h4>Order Details</h4>
-    <hr />
-
-    <dl class="dl-horizontal">
-        <dt>Order ID:</dt>
-        <dd>@Html.DisplayFor(model => model.Id)</dd>
-        <dt>Created Date:</dt>
-        <dd>@Html.DisplayFor(model => model.CreatedDate)</dd>
-        <dt>Buyer ID:</dt>
-        <dd>@Html.DisplayFor(model => model.BuyerId)</dd>
-        <dt>Address:</dt>
-        <dd>
-            <ul>
-                <li><strong>Province:</strong> @Html.DisplayFor(model => model.Address.Province)</li>
-                <li><strong>District:</strong> @Html.DisplayFor(model => model.Address.District)</li>
-                <li><strong>Street:</strong> @Html.DisplayFor(model => model.Address.Street)</li>
-                <li><strong>Line:</strong> @Html.DisplayFor(model => model.Address.Line)</li>
-                <li><strong>Zip Code:</strong> @Html.DisplayFor(model => model.Address.ZipCode)</li>
-            </ul>
-        </dd>
-    </dl>
-
-    <h4>Order Items</h4>
-    <table>
-        <thead>
-            <tr>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Price</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model.OrderItems)
-            {
-                <tr>
-                    <td>@Html.DisplayFor(modelItem => item.ProductName)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Quantity)</td>
-                    <td>@Html.DisplayFor(modelItem => item.Price)</td>
-                </tr>
-            }
-        </tbody>
-    </table>
-
-    <a class="btn btn-primary mt-3" href="#" onclick="history.back();">Back</a>
-</div>
+<body style="background-color:antiquewhite">
+    <section class="h-100" style="background-color:#FFFFFF; border-radius: 50px;">
+        <div class="container h-100 py-5">
+            <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col-10">
+                    <div class="row">
+                        <div class="col text-center py-5">
+                            <h1 class="text-secondary text-uppercase font-italic common-title">Order Details</h1>
+                        </div>
+                    </div>
+                    <div class="card rounded-3 mb-4" style="background-color:#F1F1F1">
+                        <div class="card-body p-4">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <div class="col-md-3 col-lg-2 col-xl-2">
+                                    <p class="lead fw-normal mb-2"><span class="fw-bold">ID:</span> @Model.Id</p>
+                                </div>
+                                <div class="col-md-3 col-lg-2 col-xl-2">
+                                    <p class="lead fw-normal mb-2">@Model.CreatedDate.ToShortDateString()</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body p-4">
+                            <div class="col-md-3 col-lg-5 col-xl-12">
+                                <p class="lead fw-normal mb-2"><span class="fw-bold">Province:</span> @Model.Address.Province</p>
+                                <p class="lead fw-normal mb-2"><span class="fw-bold">District:</span> @Model.Address.District</p>
+                                <p class="lead fw-normal mb-2"><span class="fw-bold">Line:</span> @Model.Address.Line</p>
+                                <p class="lead fw-normal mb-2"><span class="fw-bold">Street:</span> @Model.Address.Street</p>
+                                <p class="lead fw-normal mb-2"><span class="fw-bold">Zip Code:</span> @Model.Address.ZipCode</p>
+                            </div>
+                        </div>
+                        @foreach (var item in Model.OrderItems)
+                        {
+                            <div class="card rounded-3" style="background-color:#F1F1F1">
+                                <div class="card-body p-4">
+                                    <p><span class="text-muted">ID: </span>@item.ProductId</p>
+                                    <div class="row d-flex justify-content-between align-items-center">
+                                        <div class="col-md-2 col-lg-2 col-xl-2">
+                                            <img src="@item.PictureUrl" class="img-fluid rounded-3" alt="@item.ProductName">
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-3">
+                                            <p class="lead fw-normal mb-2">@item.ProductName</p>
+                                            
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-2">
+                                            <span class="text-center">@item.Quantity Pieces</span>
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-2">
+                                            <h5 class="mb-0">@item.Price</h5>
+                                        </div>
+                                        <div class="col-md-3 col-lg-2 col-xl-2 text-end">
+                                            <a asp-controller="Home" asp-action="Detail" asp-route-id="@item.ProductId" class="text-secondary">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="25" height="25" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                                                    <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16" />
+                                                    <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0" />
+                                                </svg>
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        }
+                        <a class="card" type="button" href="#" onclick="history.back();">
+                            <div class="card-body d-flex justify-content-center" style="background-color:#F1F1F1">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
+                                    <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5" />
+                                </svg>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>

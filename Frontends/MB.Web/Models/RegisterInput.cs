@@ -16,9 +16,9 @@ namespace MB.Web.Models
         [Display(Name = "Şifreniz")]
         public string Password { get; set; }
 
-        //[Required]
-        //[Display(Name = "Şifreniz tekrar")]
-        //public string RePassword { get; set; }
+        [Required]
+        [Display(Name = "Şifreniz tekrar")]
+        public string RePassword { get; set; }
 
         [Required]
         [Display(Name = "City")]

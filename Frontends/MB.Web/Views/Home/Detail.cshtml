@@ -1,30 +1,50 @@
 ﻿﻿@{
     ViewData["Title"] = "Detail";
+    var price = (double)Model.Price * 1.50;
+    price = Math.Round(price, 2);
 }
-
 @model ProductViewModel
 
-<div class="row">
-    <div class="col-md-9">
-
-        <div class="card">
-            <img src="@Model.StockPictureUrl" class="card-img-top" />
-            <div class="card-body">
-                <h5 class="card-title">@Model.Name</h5>
-                <div class="badge bg-primary">Kategori : @Model.Category.Name</div>
-                <p class="card-text"> @Model.Description</p>
-            </div>
-        </div>
-    </div>
-
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-body">
-                <h4 class="card-title">Fiyat : @Model.Price TL</h4>
-                <div class="d-grid">
-                    <a asp-controller="Basket" asp-action="AddBasketItem" asp-route-productId="@Model.Id" class="btn btn-primary btn-block">Add to basket</a>
+<body style="background-color:antiquewhite">
+    <section class="py-5" style="background-color:#FFFFFF; border-radius: 50px;">
+        <div class="container px-4 px-lg-5 my-5">
+            <div class="row gx-4 gx-lg-5 ">
+                <div class="col-md-6">
+                    <img class="card-img-top" src="@Model.StockPictureUrl" alt="@Model.Name"/>
+                    @if (Model.CategoryId == "662a3f396f0750356c3b2280")
+                    {
+                        <div class="mb-3 mt-3">
+                            <span class="badge bg-primary" style="font-size:medium">Category: @Model.Category.Name</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="badge bg-success" style="font-size:medium">Author: @Model.Feature.Author</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="badge bg-danger" style="font-size:medium">Published Date: @Model.Feature.PublishedDate.Value.ToShortDateString()</span>
+                        </div>
+                        <div class="mb-3">
+                            <span class="badge bg-info" style="font-size:medium">ISBN: @Model.Feature.ISBN</span>
+                        </div>
+                    }
+                </div>
+                <div class="col-6">
+                    <div class="small mb-1">SKU: @Model.Id</div>
+                    <h1 class="display-5 fw-bolder">@Model.Name</h1>
+                    <div class="fs-5 mb-5">
+                        <span class="text-decoration-line-through">@price</span>
+                        <span>₺@Model.Price</span>
+                    </div>
+                    <p class="lead">@Model.Description</p>
+                    <div class="d-grid">
+                        <a asp-controller="Basket" asp-action="AddBasketItem" asp-route-productId="@Model.Id" type="button" class="btn btn-outline-dark flex-shrink-0">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
+                                <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2"></path>
+                            </svg>
+                            Add to basket
+                        </a>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-</div>
+    </section>
+</body>
