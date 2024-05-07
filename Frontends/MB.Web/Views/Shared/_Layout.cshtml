@@ -110,9 +110,18 @@
         <!-- Header -->
         <header class="d-flex align-items-center">
             <div class="align-self-start">
-                <a asp-controller="Home" asp-action="Index">
-                    <img src="~/book2.png" alt="" width="120" class="img-fluid m-4">
-                </a>
+                @if (User.Identity.Name == "Admin")
+                {
+                    <a asp-controller="Admin" asp-action="Index">
+                        <img src="~/book2.png" alt="" width="120" class="img-fluid m-4">
+                    </a>
+                }
+                else
+                {
+                    <a asp-controller="Home" asp-action="Index">
+                        <img src="~/book2.png" alt="" width="120" class="img-fluid m-4">
+                    </a>
+                }
             </div>
         </header>
         <!-- End of Header-->

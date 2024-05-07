@@ -4,7 +4,6 @@
 @model CheckoutInfoInput
     
 <!-- Custom styles for this template -->
-<link href="/checkout.css" rel="stylesheet">
 <body style="background-color:antiquewhite">
     <svg xmlns="http://www.w3.org/2000/svg" class="d-none">
         <symbol id="check2" viewBox="0 0 16 16">
@@ -24,11 +23,6 @@
 
     <div class="container" style="background-color:#FFFFFF; border-radius: 50px;">
         <main>
-            @* <div class="py-5 text-center">
-                <img class="d-block mx-auto mb-4" src="../assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
-                <h2>Checkout form</h2>
-            </div> *@
-
             <div class="row">
                 <div class="col text-center py-5">
                     <h1 class="text-secondary text-uppercase font-italic common-title">Order History</h1>
@@ -114,8 +108,7 @@
                         <div class="row gy-3">
                             <div class="col-md-6">
                                 <label asp-for="CardHolderName" class="form-label"></label>
-                                <input asp-for="CardHolderName" type="text" class="form-control" id="cardHolderName" placeholder="" pattern="[a-z]{5,50}" required>
-                                <small class="text-body-secondary">Full name as displayed on card</small>
+                                <input asp-for="CardHolderName" type="text" class="form-control" id="cardHolderName" placeholder="Full name as displayed on card" pattern="[a-z]{5,50}" required>
                                 <div class="invalid-feedback">
                                     Name on card is required
                                 </div>
@@ -159,7 +152,5 @@
             </div>
         </main>
     </div>
-    <script src="../assets/dist/js/bootstrap.bundle.min.js"></script>
-
-    <script src="/checkout.js"></script>
+    <script src="~/js/checkout.js"></script>
 </body>

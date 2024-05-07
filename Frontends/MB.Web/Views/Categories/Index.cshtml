@@ -7,9 +7,11 @@
     <div class="row pt-3 pb-3" style="background-color:#FFFFFF; border-radius: 50px;">
         <div class="col-md-12">
             <div class="card" style="border-top-left-radius: 50px; border-top-right-radius: 50px;">
-                <div class="card-header" style="border-top-left-radius: 50px; border-top-right-radius: 50px;">
-                    <h4 class="card-title">Categories</h4>
-                    <a asp-controller="Categories" asp-action="Create" class="btn btn-primary mb-3">Create Category</a>
+                <div class="row">
+                    <div class="col text-center py-5">
+                        <h1 class="text-secondary text-uppercase font-italic common-title">Categories</h1>
+                    </div>
+                    <a asp-controller="Categories" asp-action="Create" class="btn btn-primary mb-3 ml-5" style="width: 1050px;">Create Category</a>
                 </div>
                 @if (Model.Any())
                 {
