@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace MB.Web.Models
+namespace MB.Web.Models.Auth
 {
     public class RegisterInput
     {

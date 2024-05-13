@@ -27,8 +27,4 @@
     <ProjectReference Include="..\..\Shared\MB.Shared\MB.Shared.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\User\" />
-  </ItemGroup>
-
 </Project>

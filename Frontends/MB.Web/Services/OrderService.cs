@@ -104,9 +104,55 @@ namespace MB.Web.Services
             return response.Data;
         }
 
-        public Task SuspendOrder(CheckoutInfoInput checkoutInfoInput)
+        public async Task<OrderSuspendViewModel> SuspendOrder(CheckoutInfoInput checkoutInfoInput)
         {
-            throw new NotImplementedException();
+            var basket = await _basketService.Get();
+
+            var orderCreateInput = new OrderCreateInput()
+            {
+                BuyerId = _sharedIdentityService.GetUserId,
+                Address = new AddressCreateInput
+                { 
+                    Province = checkoutInfoInput.Province, 
+                    District = checkoutInfoInput.District, 
+                    Street = checkoutInfoInput.Street, 
+                    Line = checkoutInfoInput.Line, 
+                    ZipCode = checkoutInfoInput.ZipCode 
+                }
+            };
+
+            basket.BasketItems.ForEach(x =>
+            {
+                orderCreateInput.OrderItems.Add(new OrderItemCreateInput()
+                {
+                    ProductId = x.ProductId,
+                    ProductName = x.ProductName,
+                    Price = x.Price,
+                    PictureUrl = x.Picture,
+                    Quantity = x.Quantity
+                });
+            });
+
+            var paymentInfoInput = new PaymentInfoInput()
+            {
+                CardHolderName = checkoutInfoInput.CardHolderName,
+                CardNumber = checkoutInfoInput.CardNumber,
+                ExpiryDate = checkoutInfoInput.ExpiryDate,
+                CVV = checkoutInfoInput.CVV,
+                TotalPrice = basket.TotalPrice,
+                Order = orderCreateInput
+            };
+
+            var responsePayment = await _paymentService.ReceivePayment(paymentInfoInput);
+
+            if (!responsePayment)
+            {
+                return new OrderSuspendViewModel() { Error = "Ödeme alınamadı", IsSuccessful = false };
+            }
+
+            await _basketService.Delete();
+
+            return new OrderSuspendViewModel() { IsSuccessful = true };
         }
     }
 }

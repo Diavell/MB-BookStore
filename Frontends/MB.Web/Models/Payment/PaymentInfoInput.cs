@@ -1,4 +1,6 @@
-﻿namespace MB.Web.Models.Payment
+﻿using MB.Web.Models.Order;
+
+namespace MB.Web.Models.Payment
 {
     public class PaymentInfoInput
     {
@@ -7,5 +9,6 @@
         public DateTime ExpiryDate { get; set; }
         public string CVV { get; set; }
         public decimal TotalPrice { get; set; }
+        public OrderCreateInput Order { get; set; }
     }
 }

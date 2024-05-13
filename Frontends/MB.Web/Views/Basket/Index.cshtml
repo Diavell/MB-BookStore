@@ -1,6 +1,10 @@
 ﻿@{
     ViewData["Title"] = "Index";
-    var totalPrice = Model.TotalPrice;
+    var totalPrice = 0.0;
+    if (Model != null && Model.BasketItems.Any())
+    {
+        totalPrice = ((double)Model.TotalPrice);
+    }
 }
 
 @model BasketViewModel

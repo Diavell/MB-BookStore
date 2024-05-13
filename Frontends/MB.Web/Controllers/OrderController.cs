@@ -36,7 +36,9 @@ namespace MB.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Checkout(CheckoutInfoInput checkoutInfoInput)
         {
-            var orderStatus = await _orderService.CreateOrder(checkoutInfoInput);
+            //var orderStatus = await _orderService.CreateOrder(checkoutInfoInput); // Senkron iletişimde kullanılan kod
+
+            var orderStatus = await _orderService.SuspendOrder(checkoutInfoInput); // Asenkron iletişimde kullanılan kod
 
             if (!orderStatus.IsSuccessful)
             {
@@ -49,19 +51,21 @@ namespace MB.Web.Controllers
                 return View();
             }
 
-            return RedirectToAction(nameof(ReceivingPayment), new { orderId = orderStatus.OrderId });
+            return RedirectToAction(nameof(ReceivingPayment));
         }
 
-        public IActionResult ReceivingPayment(int orderId)
+        public IActionResult ReceivingPayment()
         {
-            ViewBag.OrderId = orderId;
-
             return View();
         }
 
-        public IActionResult SuccessfulCheckout(int orderId)
+        public async Task<IActionResult> SuccessfulCheckoutAsync()
         {
-            ViewBag.OrderId = orderId;
+            var orders = await _orderService.GetAllOrders();
+
+            var orderId2 = orders.OrderByDescending(x => x.CreatedDate).FirstOrDefault().Id;
+
+            ViewBag.OrderId = orderId2;
 
             return View();
         }

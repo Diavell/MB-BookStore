@@ -36,6 +36,11 @@
         "Name": "Gateways\\MB.Gateway\\MB.Gateway.csproj",
         "Action": "Start",
         "DebugTarget": "MB.Gateway"
+      },
+      {
+        "Name": "Frontends\\MB.Web\\MB.Web.csproj",
+        "Action": "Start",
+        "DebugTarget": "MB.Web"
       }
     ]
   }

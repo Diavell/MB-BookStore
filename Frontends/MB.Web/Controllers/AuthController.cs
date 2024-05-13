@@ -1,4 +1,4 @@
-﻿using MB.Web.Models;
+﻿using MB.Web.Models.Auth;
 using MB.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.Cookies;

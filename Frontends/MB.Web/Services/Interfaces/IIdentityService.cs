@@ -1,6 +1,6 @@
 ﻿using IdentityModel.Client;
 using MB.Shared.Dtos;
-using MB.Web.Models;
+using MB.Web.Models.Auth;
 
 namespace MB.Web.Services.Interfaces
 {
