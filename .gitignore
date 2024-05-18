@@ -361,3 +361,4 @@ MigrationBackup/
 
 # Fody - auto-generated XML schema
 FodyWeavers.xsd
+/Frontends/MB.Web/wwwroot/lib/bootstrap-5.3.3/css/bootstrap-grid.css

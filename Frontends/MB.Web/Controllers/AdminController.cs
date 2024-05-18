@@ -5,6 +5,7 @@ using MB.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using static MB.Web.Models.AdminReturnResult;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MB.Web.Controllers
@@ -23,16 +24,16 @@ namespace MB.Web.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var monthltyEarning = await _adminService.MonthltyEarning();
-            ViewBag.MonthlyEarning = monthltyEarning;
+            var monthltyRevenue = await _adminService.Revenues(TimePeriodEnum.Monthly);
+            ViewBag.MonthlyEarning = monthltyRevenue;
 
-            var annualEarning = await _adminService.AnnualEarning();
-            ViewBag.AnnualEarning = annualEarning;
+            var annualRevenue = await _adminService.Revenues(TimePeriodEnum.Annual);
+            ViewBag.AnnualEarning = annualRevenue;
 
-            var monthltyOrders = await _adminService.MonthltyOrders();
+            var monthltyOrders = await _adminService.Orders(TimePeriodEnum.Monthly);
             ViewBag.MonthlyOrders = monthltyOrders;
 
-            var annualOrders = await _adminService.AnnualOrders();
+            var annualOrders = await _adminService.Orders(TimePeriodEnum.Annual);
             ViewBag.AnnualOrders = annualOrders;
 
             var numberOfMembers = await _adminService.NumberOfMembers();
@@ -43,6 +44,10 @@ namespace MB.Web.Controllers
 
             var numberOfCategories = await _adminService.NumberOfCategories();
             ViewBag.NumberOfCategories = numberOfCategories;
+            
+            var mostPopularProduct = await _adminService.MostPopularProduct();
+            ViewBag.MostPopularProductMonthly = mostPopularProduct.Monthly;
+            ViewBag.MostPopularProductAnnual = mostPopularProduct.Annual;
 
             var salesOfProductsChart = await _adminService.SalesOfProductsChart();
             ViewBag.SalesOfProductsChart = JsonConvert.SerializeObject(salesOfProductsChart);

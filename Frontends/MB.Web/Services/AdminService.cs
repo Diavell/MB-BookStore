@@ -3,6 +3,7 @@ using MB.Web.Models;
 using MB.Web.Models.Order;
 using MB.Web.Services.Interfaces;
 using Newtonsoft.Json;
+using static MB.Web.Models.AdminReturnResult;
 
 namespace MB.Web.Services
 {
@@ -21,54 +22,51 @@ namespace MB.Web.Services
             _catalogService = catalogService;
         }
 
-        public async Task<decimal> MonthltyEarning()
-        {            
+        public async Task<decimal> Revenues(TimePeriodEnum period)
+        {
             var orders = await _orderService.GetAllOrders();
 
-            var monthltyorders = orders.Where(x => x.CreatedDate.Month == DateTime.Now.Month).ToList();
+            List<OrderViewModel> filteredOrders;
 
-            monthltyorders.ForEach(x =>
+            DateTime now = DateTime.Now;
+
+            if (period == TimePeriodEnum.Monthly)
             {
-                x.TotalPrice = x.OrderItems.Sum(x => x.TotalPrice);
+                filteredOrders = orders.Where(x => x.CreatedDate.Month == now.Month && x.CreatedDate.Year == now.Year).ToList();
+            }
+            else
+            {
+                filteredOrders = orders.Where(x => x.CreatedDate.Year == now.Year).ToList();
+            }
+
+            filteredOrders.ForEach(x =>
+            {
+                x.TotalPrice = x.OrderItems.Sum(item => item.TotalPrice);
             });
 
-            var monthltyEarning = monthltyorders.Sum(x => x.TotalPrice);
+            var totalEarnings = filteredOrders.Sum(x => x.TotalPrice);
 
-            return monthltyEarning;
+            return totalEarnings;
         }
         
-        public async Task<decimal> AnnualEarning()
-        {            
+        public async Task<int> Orders(TimePeriodEnum period)
+        {
             var orders = await _orderService.GetAllOrders();
 
-            var annualOrders = orders.Where(x => x.CreatedDate.Year == DateTime.Now.Year).ToList();
+            DateTime now = DateTime.Now;
 
-            annualOrders.ForEach(x =>
+            List<OrderViewModel> filteredOrders;
+
+            if (period == TimePeriodEnum.Monthly)
             {
-                x.TotalPrice = x.OrderItems.Sum(x => x.TotalPrice);
-            });
+                filteredOrders = orders.Where(x => x.CreatedDate.Month == now.Month && x.CreatedDate.Year == now.Year).ToList();
+            }
+            else
+            {
+                filteredOrders = orders.Where(x => x.CreatedDate.Year == now.Year).ToList();
+            }
 
-            var annualEarning = annualOrders.Sum(x => x.TotalPrice);
-
-            return annualEarning;
-        }
-        
-        public async Task<int> MonthltyOrders()
-        {            
-            var orders = await _orderService.GetAllOrders();
-
-            var monthltyOrders = orders.Where(x => x.CreatedDate.Month == DateTime.Now.Month).ToList();
-
-            return monthltyOrders.Count;
-        }
-        
-        public async Task<int> AnnualOrders()
-        {            
-            var orders = await _orderService.GetAllOrders();
-
-            var annualOrders = orders.Where(x => x.CreatedDate.Year == DateTime.Now.Year).ToList();
-
-            return annualOrders.Count;
+            return filteredOrders.Count;
         }
 
         public async Task<int> NumberOfMembers()
@@ -91,6 +89,35 @@ namespace MB.Web.Services
 
             return response.Count;
         }
+        
+        public async Task<TimePeriod> MostPopularProduct()
+        {
+            // Annually
+            var orders = await _orderService.GetAllOrders();
+
+            var allOrderItems = orders.SelectMany(order => order.OrderItems);
+
+            var mostPopularProductAnnually = allOrderItems
+                .GroupBy(item => item.ProductId)
+                .OrderByDescending(group => group.Sum(item => item.Quantity))
+                .FirstOrDefault()?.FirstOrDefault()?.ProductName;
+
+            // Monthly
+            var monthltyOrders = orders.Where(x => x.CreatedDate.Month == DateTime.Now.Month).ToList();
+
+            var monthltyOrderItems = monthltyOrders.SelectMany(order => order.OrderItems);
+
+            var mostPopularProductMonthly = monthltyOrderItems
+                .GroupBy(item => item.ProductId)
+                .OrderByDescending(group => group.Sum(item => item.Quantity))
+                .FirstOrDefault()?.FirstOrDefault()?.ProductName;
+
+            return new TimePeriod
+            {
+                Annual = mostPopularProductAnnually,
+                Monthly = mostPopularProductMonthly
+            };
+        }
 
         public async Task<List<DataPoint>> SalesOfProductsChart()
         {
@@ -98,13 +125,20 @@ namespace MB.Web.Services
 
             var orders = await _orderService.GetAllOrders();
 
-            var groupedOrders = orders.GroupBy(x => x.OrderItems.Select(x => x.ProductId));
+            var allOrderItems = orders.SelectMany(order => order.OrderItems);
 
-            foreach (var item in groupedOrders)
+            var groupedOrderItems = allOrderItems.GroupBy(item => item.ProductId);
+
+            foreach (var group in groupedOrderItems)
             {
-                var product = item.FirstOrDefault().OrderItems.FirstOrDefault().ProductName;
+                var productName = group.FirstOrDefault()?.ProductName;
 
-                dataPoints.Add(new DataPoint(product, item.Sum(x => x.OrderItems.Sum(x => x.Quantity))));
+                if (productName != null)
+                {
+                    var totalQuantity = group.Sum(item => item.Quantity);
+
+                    dataPoints.Add(new DataPoint(productName, totalQuantity));
+                }
             }
 
             return dataPoints;

@@ -5,7 +5,7 @@
 @model SigninInput
 
 <body class="bg-gradient" style="background-color:antiquewhite">
-    <div class="containerr" >
+    <div class="container" >
         <div class="row justify-content-center pt-3">
             <div class="col-xxl-12">
                 <div class="card o-hidden border-0 shadow-lg my-5" style="border-radius: 50px">
@@ -25,12 +25,12 @@
                                                    id="exampleInputEmail" aria-describedby="emailHelp"
                                                    placeholder="Enter Email Address...">
                                         </div>
-                                        <div class="form-group pt-3 pb-3">
+                                        <div class="form-group pt-5 pb-3">
                                             <input asp-for="Password" type="password" value="Password12*" class="form-control form-control-user"
                                                    id="exampleInputPassword" placeholder="Password">
                                         </div>
                                         <div asp-validation-summary="ModelOnly" class="text-danger pb-2"></div>
-                                        <button type="submit" class="btn btn-primary btn-user btn-block">
+                                        <button type="submit" class="btn btn-primary btn-user btn-block mt-5">
                                             Login
                                         </button>
                                         <hr>
@@ -39,9 +39,7 @@
                                     <div class="text-center pt-5">
                                     </div>
                                     <div class="text-center pt-5">
-                                    </div>
-                                    <div class="text-center pt-5">
-                                        <a class="small" asp-area="" asp-controller="Auth" asp-action="Register" style="padding: 10px;">Create an Account!</a>
+                                        <a class="text-center" asp-area="" asp-controller="Auth" asp-action="Register" style="padding: 10px;">Create an Account!</a>
                                     </div>
                                 </div>
                             </div>

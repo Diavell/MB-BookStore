@@ -1,16 +1,16 @@
 ﻿using MB.Web.Models;
+using static MB.Web.Models.AdminReturnResult;
 
 namespace MB.Web.Services.Interfaces
 {
     public interface IAdminService
     {
-        Task<decimal> MonthltyEarning();
-        Task<decimal> AnnualEarning();
-        Task<int> MonthltyOrders();
-        Task<int> AnnualOrders();
+        Task<decimal> Revenues(TimePeriodEnum period);
+        Task<int> Orders(TimePeriodEnum period);
         Task<int> NumberOfMembers();
         Task<int> NumberOfProducts();
         Task<int> NumberOfCategories();
+        Task<TimePeriod> MostPopularProduct();
         Task<List<DataPoint>> SalesOfProductsChart();
         Task<List<DataPoint>> NumberOfOrdersChart();
         Task<List<DataPoint>> TotalOrderAmountsChart();
