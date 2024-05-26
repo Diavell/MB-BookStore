@@ -10,7 +10,6 @@
     <div class="container" style="background-color:#FFFFFF; border-radius: 50px;">
         <div class="row">
             <div class="col-12">
-                <!-- Page title -->
                 <div class="row">
                     <div class="col text-center py-5">
                         <h1 class="text-secondary text-uppercase font-italic common-title">Update Profile</h1>
@@ -21,22 +20,22 @@
                         <div class="p-5">
                             <div class="text-center">
                             </div>
-                            <form class="user" asp-action="Update">
-                                <div class="form-group pt-3">
-                                    <input asp-for="Id" type="text" class="form-control form-control-user"
-                                           id="exampleID" placeholder="ID" disabled>
-                                </div>
-                                <div class="form-group pt-3">
+                            <form class="user needs-validation" asp-action="Update" novalidate>
+                                <input type="hidden" asp-for="Id" />
+                                <div class="form-group col-md-13">
                                     <input asp-for="UserName" type="text" class="form-control form-control-user"
-                                           id="exampleFirstName" placeholder="Full Name">
+                                           id="exampleFirstName" pattern="[A-Za-z\s]{3,}" title="Only letters and spaces are allowed" required>
+                                    <label asp-for="UserName" class="form-label"></label>
                                 </div>
-                                <div class="form-group pt-3">
+                                <div class="form-group col-md-13 mt-4">
                                     <input asp-for="Email" type="email" class="form-control form-control-user"
-                                           id="exampleInputEmail" placeholder="Email Address">
+                                           id="exampleInputEmail" pattern="[a-z0-9._%+-]+&#64;[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address" required>
+                                    <label asp-for="Email" class="form-label"></label>
                                 </div>
-                                <div class="form-group pt-3 pb-3">
+                                <div class="form-group col-md-13 mt-4">
                                     <input asp-for="City" type="text" class="form-control form-control-user"
-                                           id="exampleInputCity" placeholder="City">
+                                           id="exampleInputCity" pattern="[A-Za-z\s]{3,}" title="Only letters and spaces are allowed" required>
+                                    <label asp-for="City" class="form-label"></label>
                                 </div>
                                 <div asp-validation-summary="ModelOnly" class="text-danger pb-2"></div>
                                 <button type="submit" class="btn btn-primary btn-user btn-block">
@@ -51,4 +50,5 @@
             </div>
         </div>
     </div>
+    <script src="~/js/checkout.js"></script>
 </body>

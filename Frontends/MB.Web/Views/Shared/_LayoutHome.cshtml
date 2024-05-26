@@ -24,231 +24,126 @@
 </head>
 <body>
     
-    @if (User.Identity.Name == "Admin")
-    {
-        <!-- Navigation -->
-        <nav class="navigation">
-            <button class="navbar-toggler hamburger-menu" type="button" data-toggle="collapse" data-target="#myNavbar">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </button>
-            <div class="bg-cover"></div>
-            <div class="collapse nav-content" id="myNavbar">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-10 mx-auto">
-                            <a href="#" class="navbar-brand mt-4 d-lg-none d-block">
-                                <img src="~/book2.png" width="120">
-                            </a>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <ul class="navbar-nav text-capitalize flex-lg-row flex-column nav-justified">
-                                    <li class="nav-item">
-                                        <a asp-controller="Products" asp-action="Index" class="nav-link m-lg-3 m-1 link-item">Products</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a asp-controller="Categories" asp-action="Index" class="nav-link m-lg-3 m-1 link-item">Categories</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a asp-controller="User" asp-action="AllUsers" class="nav-link m-lg-3 m-1 link-item">Users</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a asp-controller="Order" asp-action="GetAllOrders" class="nav-link m-lg-3 m-1 link-item">Orders</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a href="#" class="nav-link m-lg-3 m-1 link-item">@User.Identity.Name</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link m-lg-3 m-1 link-item" asp-controller="Auth" asp-action="LogOut">LogOut</a>
-                                    </li>
-                                </ul>
-                            }
+    <!-- Navigation -->
+    <nav class="navigation">
+        <button class="navbar-toggler hamburger-menu" type="button" data-toggle="collapse" data-target="#myNavbar">
+            <div class="line1"></div>
+            <div class="line2"></div>
+            <div class="line3"></div>
+        </button>
+        <div class="bg-cover"></div>
+        <div class="collapse nav-content" id="myNavbar">
+            <div class="container-fluid">
+                <div class="row">
+                    <div class="col-10 mx-auto">
+                        <a href="#" class="navbar-brand mt-4 d-lg-none d-block">
+                            <img src="~/book2.png" width="120">
+                        </a>
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            <ul class="navbar-nav text-capitalize flex-lg-row flex-column nav-justified">
+                                <li class="nav-item">
+                                    <a class="nav-link m-lg-3 m-1 link-item" asp-controller="Home" asp-action="Index">Home</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-lg-3 m-1 link-item" asp-controller="Order" asp-action="CheckoutHistory">Order History</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-lg-3 m-1 link-item" asp-controller="Basket" asp-action="Index">Basket</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-lg-3 m-1 link-item" asp-controller="User" asp-action="Index">@User.Identity.Name</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-lg-3 m-1 link-item" asp-area="" asp-controller="Auth" asp-action="LogOut">Log Out</a>
+                                </li>
+                            </ul>
+                        }
+                        else
+                        {
+                            <ul class="navbar-nav text-capitalize flex-lg-row flex-column nav-justified">
+                                <li class="nav-item">
+                                    <a class="nav-link m-lg-3 m-1 link-item" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-lg-3 m-1 link-item" asp-area="" asp-controller="Auth" asp-action="SignIn">Sign In</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link m-lg-3 m-1 link-item" asp-area="" asp-controller="Auth" asp-action="AdminSignIn">Sign Up for Admin</a>
+                                </li>
+                            </ul>
+                        }
 
-                        </div>
-                        <div class="col-lg-5 col-10 mx-auto">
-                            <div class="input-group">
-                                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onchange="updateRouteId()">
-                                <div class="input-group-append">
-                                    <a id="searchButton" type="button" class="btn" asp-controller="Home" asp-action="SearchProduct">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
+                    </div>
+                    <div class="col-lg-5 col-10 mx-auto">
+                        <div class="input-group">
+                            <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onchange="updateRouteId()">
+                            <div class="input-group-append">
+                                <a id="searchButton" type="button" class="btn" asp-controller="Home" asp-action="SearchProduct">
+                                    <i class="fas fa-search"></i>
+                                </a>
                             </div>
                         </div>
+                    </div>
 
-                        <script>
-                            let originalHref = "http://localhost:5010/Home/SearchProduct";
+                    <script>
+                        let originalHref = "http://localhost:5010/Home/SearchProduct";
 
-                            function updateRouteId() {
-                                const searchTerm = document.getElementById("searchInput").value;
-                                const searchButton = document.getElementById("searchButton");
-                                if (!originalHref)
-                                    originalHref = searchButton.href;
-                                searchButton.href = originalHref + "/" + searchTerm;
-                            }
-                        </script>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row my-5">
-                        <div class="col text-center">
-                            <h1 class="display-1 text-white">MB Bookstore</h1>
-                        </div>
-                    </div>
-                    <div class="row d-lg-block d-none">
-                        <div class="col text-center">
-                            <img src="book2.png" width="550">
-                        </div>
-                    </div>
+                        function updateRouteId() {
+                            const searchTerm = document.getElementById("searchInput").value;
+                            const searchButton = document.getElementById("searchButton");
+                            if (!originalHref)
+                                originalHref = searchButton.href;
+                            searchButton.href = originalHref + "/" + searchTerm;
+                        }
+                    </script>
                 </div>
             </div>
-        </nav>
-        <!--End of Navigation -->
-        <!-- Header -->
-        <header class="d-flex align-items-center">
-            <div class="align-self-start">
-                <a asp-controller="Home" asp-action="Index">
-                    <img src="~/book2.png" alt="" width="120" class="img-fluid m-4">
-                </a>
-            </div>
-            <!-- Banner -->
             <div class="container">
-                <div class="row">
-                    <div class="col text-center ">
-                        <h1 class="text-light display-2 font-italic mb-5 banner-heading">
-                            We <img src="~/img/heart.png" width="210"
-                                    class="img-fluid">Reading
-                        </h1>
+                <div class="row my-5">
+                    <div class="col text-center">
+                        <h1 class="display-1 text-white">MB Bookstore</h1>
+                    </div>
+                </div>
+                <div class="row d-lg-block d-none">
+                    <div class="col text-center">
+                        <img src="~/book2.png" width="550">
                     </div>
                 </div>
             </div>
-            <!-- End of Banner -->
-        </header>
-        <!-- End of Header-->
-    }
-    else
-    {
-        <!-- Navigation -->
-        <nav class="navigation">
-            <button class="navbar-toggler hamburger-menu" type="button" data-toggle="collapse" data-target="#myNavbar">
-                <div class="line1"></div>
-                <div class="line2"></div>
-                <div class="line3"></div>
-            </button>
-            <div class="bg-cover"></div>
-            <div class="collapse nav-content" id="myNavbar">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col-10 mx-auto">
-                            <a href="#" class="navbar-brand mt-4 d-lg-none d-block">
-                                <img src="~/book2.png" width="120">
-                            </a>
-                            @if (User.Identity.IsAuthenticated)
-                            {
-                                <ul class="navbar-nav text-capitalize flex-lg-row flex-column nav-justified">
-                                    <li class="nav-item">
-                                        <a class="nav-link m-lg-3 m-1 link-item" asp-controller="Home" asp-action="Index">Home</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link m-lg-3 m-1 link-item" asp-controller="Order" asp-action="CheckoutHistory">Order History</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link m-lg-3 m-1 link-item" asp-controller="Basket" asp-action="Index">Basket</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link m-lg-3 m-1 link-item" asp-controller="User" asp-action="Index">@User.Identity.Name</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link m-lg-3 m-1 link-item" asp-area="" asp-controller="Auth" asp-action="LogOut">Log Out</a>
-                                    </li>
-                                </ul>
-                            }
-                            else
-                            {
-                                <ul class="navbar-nav text-capitalize flex-lg-row flex-column nav-justified">
-                                    <li class="nav-item">
-                                        <a class="nav-link m-lg-3 m-1 link-item" asp-area="" asp-controller="Auth" asp-action="Register">Register</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link m-lg-3 m-1 link-item" asp-area="" asp-controller="Auth" asp-action="SignIn">Sign In</a>
-                                    </li>
-                                    <li class="nav-item">
-                                        <a class="nav-link m-lg-3 m-1 link-item" asp-area="" asp-controller="Auth" asp-action="AdminSignIn">Sign Up for Admin</a>
-                                    </li>
-                                </ul>
-                            }
-
-                        </div>
-                        <div class="col-lg-5 col-10 mx-auto">
-                            <div class="input-group">
-                                <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onchange="updateRouteId()">
-                                <div class="input-group-append">
-                                    <a id="searchButton" type="button" class="btn" asp-controller="Home" asp-action="SearchProduct">
-                                        <i class="fas fa-search"></i>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                        <script>
-                            let originalHref = "http://localhost:5010/Home/SearchProduct";
-
-                            function updateRouteId() {
-                                const searchTerm = document.getElementById("searchInput").value;
-                                const searchButton = document.getElementById("searchButton");
-                                if (!originalHref)
-                                    originalHref = searchButton.href;
-                                searchButton.href = originalHref + "/" + searchTerm;
-                            }
-                        </script>
-                    </div>
-                </div>
-                <div class="container">
-                    <div class="row my-5">
-                        <div class="col text-center">
-                            <h1 class="display-1 text-white">MB Bookstore</h1>
-                        </div>
-                    </div>
-                    <div class="row d-lg-block d-none">
-                        <div class="col text-center">
-                            <img src="~/book2.png" width="550">
-                        </div>
-                    </div>
+        </div>
+    </nav>
+    <!--End of Navigation -->
+    <!-- Header -->
+    <header class="d-flex align-items-center">
+        <div class="align-self-start">
+            <a asp-controller="Home" asp-action="Index">
+                <img src="~/book2.png" alt="" width="120" class="img-fluid m-4">
+            </a>
+        </div>
+        <!-- Banner -->
+        <div class="container">
+            <div class="row">
+                <div class="col text-center ">
+                    <h1 class="text-light display-2 font-italic mb-5 banner-heading">
+                        We <img src="~/img/heart.png" width="210"
+                                class="img-fluid">Reading
+                    </h1>
                 </div>
             </div>
-        </nav>
-        <!--End of Navigation -->
-        <!-- Header -->
-        <header class="d-flex align-items-center">
-            <div class="align-self-start">
-                <a asp-controller="Home" asp-action="Index">
-                    <img src="~/book2.png" alt="" width="120" class="img-fluid m-4">
-                </a>
-            </div>
-            <!-- Banner -->
-            <div class="container">
-                <div class="row">
-                    <div class="col text-center ">
-                        <h1 class="text-light display-2 font-italic mb-5 banner-heading">
-                            We <img src="~/img/heart.png" width="210"
-                                    class="img-fluid">Reading
-                        </h1>
-                    </div>
-                </div>
-            </div>
-            <!-- End of Banner -->
-        </header>
-        <!-- End of Header-->
-        <style>
-            header {
-                height: 80vh;
-                background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .8)), url(../img/header-bg.jpeg) fixed center no-repeat;
-                background-size: cover;
-                clip-path: polygon(0 0, 100% 0%, 100% 90%, 0 100%);
-            }
-        </style>
-    }
+        </div>
+        <!-- End of Banner -->
+    </header>
+    <!-- End of Header-->
+    <style>
+        header {
+            flex-shrink: 0;
+            height: 80vh;
+            background: linear-gradient(rgba(0, 0, 0, .7), rgba(0, 0, 0, .8)), url(../img/header-bg.jpeg) fixed center no-repeat;
+            background-size: cover;
+            clip-path: polygon(0 0, 100% 0%, 100% 90%, 0 100%);
+        }
+    </style>
 
     <div class="container">
         <main role="main" class="pb-3">
@@ -275,10 +170,11 @@
             <div class="row">
                 <div class="col text-center text-light">
                     <div class="mb-2">
-                        <a href="javascript:void(0)" class="mx-sm-4 mx-2"><i class="fab fa-facebook fa-2x text-primary"></i></a>
-                        <a href="javascript:void(0)" class="mx-sm-4 mx-2"><i class="fab fa-twitter fa-2x text-info"></i></a>
-                        <a href="javascript:void(0)" class="mx-sm-4 mx-2"><i class="fab fa-instagram fa-2x text-danger"></i></a>
-                        <a href="javascript:void(0)" class="mx-sm-4 mx-2"><i class="fab fa-linkedin fa-2x text-info"></i></a>
+                        <a href="https://www.facebook.com/" class="mx-sm-4 mx-2"><i class="fab fa-facebook fa-2x text-primary"></i></a>
+                        <a href="https://twitter.com/" class="mx-sm-4 mx-2"><i class="fab fa-twitter fa-2x text-info"></i></a>
+                        <a href="https://www.instagram.com/" class="mx-sm-4 mx-2"><i class="fab fa-instagram fa-2x text-danger"></i></a>
+                        <a href="https://www.youtube.com/" class="mx-sm-4 mx-2"><i class="fab fa-youtube fa-2x text-danger"></i></a>
+                        <a href="https://www.linkedin.com/" class="mx-sm-4 mx-2"><i class="fab fa-linkedin fa-2x text-info"></i></a>
                     </div>
                 </div>
             </div>

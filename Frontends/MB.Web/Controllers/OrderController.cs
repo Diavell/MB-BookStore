@@ -1,4 +1,7 @@
-﻿using MB.Web.Models.Order;
+﻿using MB.Web.Models.Catalog;
+using MB.Web.Models;
+using MB.Web.Models.Order;
+using MB.Web.Services;
 using MB.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -70,22 +73,30 @@ namespace MB.Web.Controllers
             return View();
         }
 
-        public async Task<IActionResult> CheckoutHistory()
+        public async Task<IActionResult> CheckoutHistory(int? pageNumber)
         {
+            int pageSize = 5;
+
             var orders = await _orderService.GetOrder();
 
             orders = orders.OrderByDescending(x => x.CreatedDate).ToList();
 
-            return View(orders);
+            var queryableOrders = orders.AsQueryable();
+
+            return View(PaginatedList<OrderViewModel>.Create(queryableOrders, pageNumber ?? 1, pageSize));
         }
-        
-        public async Task<IActionResult> GetAllOrders()
+
+        public async Task<IActionResult> GetAllOrders(int? pageNumber)
         {
+            int pageSize = 5;
+
             var orders = await _orderService.GetAllOrders();
 
             orders = orders.OrderByDescending(x => x.CreatedDate).ToList();
 
-            return View(orders);
+            var queryableOrders = orders.AsQueryable();
+
+            return View(PaginatedList<OrderViewModel>.Create(queryableOrders, pageNumber ?? 1, pageSize));
         }
 
         public async Task<IActionResult> GetOrderById(int id)

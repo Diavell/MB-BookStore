@@ -4,53 +4,51 @@
 }
 @model List<ProductViewModel>
 
-<div class="row">
-    <div class="col text-center py-5">
-        <h1 class="text-secondary text-uppercase font-italic common-title">Products</h1>
+<body style="background-color:antiquewhite">
+    <div class="row">
+        <div class="col text-center py-5">
+            <h1 class="text-secondary text-uppercase font-italic common-title">Products</h1>
+        </div>
     </div>
-</div>
 
-@if (Model != null)
-{
-    <section class="popular-books">
-        <div class="container-fluid">
-            <div class="row justify-content-around align-items-center">
-                @foreach (var product in Model)
-                {
-                    <div class="col-xl-3 col-lg-4 col-sm-8 rotate pb-5">
-                        <div class="card text-center mb-3 book-card mx-auto">
-                            <div class="card-header">
-                                <h4 class="font-weight-light">@product.Name</h4>
-                            </div>
-                            <div class="card-body">
-                                <img src="@product.StockPictureUrl" class="img-fluid rounded">
-                            </div>
-                            @if (product.CategoryId == "66432d52091f91086cda1256")
-                            {
-                                <div class="card-footer">
-                                    By @product.Feature.Author
+    @if (Model != null)
+    {
+        <section class="popular-books">
+            <div class="container-fluid">
+                <div class="row justify-content-around align-items-center">
+                    @foreach (var product in Model)
+                    {
+                        <div class="col-xl-3 col-lg-4 col-sm-8 rotate pb-5">
+                            <div class="card text-center mb-3 book-card mx-auto">
+                                <div class="card-header">
+                                    <h4 class="font-weight-light">@product.Name</h4>
                                 </div>
-                            }
-                            <div class="back">
-                                <div class="back-content">
-                                    <h1 class="text-uppercase font-weight-light font-italic">Only For</h1>
-                                    <h3 class="mb-3">@product.Price</h3>
-                                    <p>@product.ShortDescription</p>
-                                    <a asp-route-id="@product.Id" asp-controller="Home" asp-action="Detail" class="btn btn-outline-danger px-4">Details</a>
+                                <div class="card-body">
+                                    <img src="@product.StockPictureUrl" class="img-fluid rounded">
+                                </div>
+                                @if (product.CategoryId == "66432d52091f91086cda1256")
+                                {
+                                    <div class="card-footer">
+                                        By @product.Feature.Author
+                                    </div>
+                                }
+                                <div class="back">
+                                    <div class="back-content">
+                                        <h1 class="text-uppercase font-weight-light font-italic">Only For</h1>
+                                        <h3 class="mb-3">@product.Price</h3>
+                                        <p>@product.ShortDescription</p>
+                                        <a asp-route-id="@product.Id" asp-controller="Home" asp-action="Detail" class="btn btn-outline-danger px-4">Details</a>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                }
+                    }
+                </div>
             </div>
-        </div>
-    </section>
-}
-else
-{
-    <div class="alert alert-info p-5">Product not found :(</div>
-    <div class="p-5"></div>
-    <div class="p-5"></div>
-    <div class="p-5"></div>
-    <div class="pt-4"></div>
-}
+        </section>
+    }
+    else
+    {
+        <div class="alert alert-info p-5">Product not found :(</div>
+    }
+</body>

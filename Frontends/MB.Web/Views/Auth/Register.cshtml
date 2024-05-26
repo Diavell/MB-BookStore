@@ -20,27 +20,27 @@
                                     </div>
                                     <div class="text-center">
                                     </div>
-                                    <form class="user" asp-controller="Auth" asp-action="Register" method="post">
+                                    <form class="user needs-validation" asp-controller="Auth" asp-action="Register" method="post" novalidate>
                                         <div class="form-group pt-3">
                                             <input asp-for="UserName" type="text" class="form-control form-control-user"
-                                                   id="exampleFirstName" placeholder="Full Name">
+                                                   id="exampleFirstName" placeholder="Full Name" pattern="[A-Za-z\s]{3,}" title="Only letters and spaces are allowed" required>
                                         </div>
                                         <div class="form-group pt-3">
                                             <input asp-for="Email" type="email" class="form-control form-control-user"
-                                                   id="exampleInputEmail" placeholder="Email Address">
+                                                   id="exampleInputEmail" placeholder="Email Address" pattern="[a-z0-9._%+-]+&#64;[a-z0-9.-]+\.[a-z]{2,}$" title="Please enter a valid email address" required>
                                         </div>
                                         <div class="form-group pt-3">
                                             <input asp-for="City" type="text" class="form-control form-control-user"
-                                                   id="exampleInputCity" placeholder="City">
+                                                   id="exampleInputCity" placeholder="City" pattern="[A-Za-z\s]{3,}" title="Only letters and spaces are allowed" required>
                                         </div>
                                         <div class="form-group row pt-3 pb-3">
                                             <div class="col-sm-6 mb-3 mb-sm-0">
                                                 <input asp-for="Password" type="password" class="form-control form-control-user"
-                                                       id="exampleInputPassword" placeholder="Password">
+                                                       id="exampleInputPassword" placeholder="Password" pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z])(?=.*[&#64;$!%*?&])[A-Za-z\d&#64;$!%*?&]{8,}" title="Password must be at least 8 characters long, contain at least one uppercase letter, one lowercase letter, one number, and one special character" required>
                                             </div>
                                             <div class="col-sm-6">
                                                 <input asp-for="RePassword" type="password" class="form-control form-control-user"
-                                                       id="exampleRepeatPassword" placeholder="Repeat Password">
+                                                       id="exampleRepeatPassword" placeholder="Repeat Password" pattern="{8,}" required>
                                             </div>
                                         </div>
                                         <div asp-validation-summary="ModelOnly" class="text-danger pb-2"></div>
@@ -61,4 +61,5 @@
             </div>
         </div>
     </div>
+    <script src="~/js/checkout.js"></script>
 </body>

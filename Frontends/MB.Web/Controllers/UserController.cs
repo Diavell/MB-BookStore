@@ -23,9 +23,12 @@ namespace MB.Web.Controllers
             return View(await _userService.GetUsers());
         }
 
-        public async Task<IActionResult> AllUsers()
+        public async Task<IActionResult> AllUsers(int? pageNumber)
         {
-            return View(await _userService.GetAllUsers());
+            int pageSize = 5;
+            var users = await _userService.GetAllUsers();
+            var queryableUsers = users.AsQueryable();
+            return View(PaginatedList<UserViewModel>.Create(queryableUsers, pageNumber ?? 1, pageSize));
         }
 
         public async Task<IActionResult> Update(string id)

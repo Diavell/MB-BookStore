@@ -1,22 +1,26 @@
 ﻿@{
     ViewData["Title"] = "Index";
 }
-@model List<ProductViewModel>
+@model PaginatedList<ProductViewModel>
 
 <body style="background-color:antiquewhite">
     <div class="row pt-3 pb-3" style="background-color:#FFFFFF; border-radius: 50px;">
         <div class="col-md-12">
-            <div class="card" style="border-top-left-radius: 50px; border-top-right-radius: 50px;">
+            <div>
                 <div class="row">
                     <div class="col text-center py-5">
                         <h1 class="text-secondary text-uppercase font-italic common-title">Products</h1>
                     </div>
-                    <a asp-controller="Products" asp-action="Create" class="btn btn-primary mb-3 ml-5" style="width: 1050px;">Create Product</a>
+                    <a asp-controller="Products" asp-action="Create" class="btn btn-primary mb-3 ml-5" style="width: 1050px; border-radius: 20px;">Create Product</a>
+                    <div class="form-group">
+                        <input type="text" class="search form-control" style="border-radius: 20px;" placeholder="What are you looking for?">
+                    </div>
                 </div>
                 @if (Model.Any())
                 {
+                    
                     <div>
-                        <table class="table table-striped" style="border-radius: 50px;">
+                        <table class="table table-striped results" style="border-radius: 50px;">
                             <thead>
                                 <tr>
                                     <th>Id</th>
@@ -52,33 +56,53 @@
                                             <img class="img-thumbnail" src="@product.StockPictureUrl" alt="@product.Name" style="width: 100px; height: 100px;" />
                                         </td>
                                         <td>
-                                            <a asp-controller="Products" asp-action="Update" asp-route-id="@product.Id" class="btn btn-primary">Update</a>
-                                            <button type="button" class="btn btn-danger center mt-3 ml-3" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-trash-fill"></i></button>
-                                            <!-- Modal -->
-                                            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                                <div class="modal-dialog">
-                                                    <div class="modal-content">
-                                                        <div class="modal-header">
-                                                            <h1 class="modal-title fs-5" id="exampleModalLabel">Product will be deleted!</h1>
-                                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                                                        </div>
-                                                        <div class="modal-body">
-                                                            <p>Are you sure you want to delete the product?</p>
-                                                            <p>This action cannot be undone!</p>
-                                                        </div>
-                                                        <div class="modal-footer">
-                                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
-                                                            <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger">Delete</a>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <!-- Modal End -->
+                                            <a asp-controller="Products" asp-action="Update" asp-route-id="@product.Id" class="btn btn-info mb-3 ml-2 rounded-circle custom-btn">
+                                                <i class="bi bi-gear"></i>
+                                            </a>
+                                            <a asp-controller="Products" asp-action="Delete" asp-route-id="@product.Id" class="btn btn-danger mb-3 ml-2 rounded-circle custom-btn"
+                                               onclick="return confirmDelete('@product.Id')"><i class="bi bi-trash"></i></a>                                            
                                         </td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
+
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                @if (Model.HasPreviousPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">Previous</a>
+                                    </li>
+                                }
+
+                                @for (int i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@i">@i</a>
+                                    </li>
+                                }
+
+                                @if (Model.HasNextPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="Index" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
                     </div>
                 }
                 else
@@ -90,4 +114,73 @@
             </div>
         </div>
     </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script type="text/javascript">
+        function confirmDelete(productId) {
+            return confirm("Are you sure you want to delete the product with ID " + productId + "?");
+        }
+        $(document).ready(function () {
+            $(".search").keyup(function () {
+                var searchTerm = $(".search").val();
+                var listItem = $('.results tbody').children('tr');
+                var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
+
+                $.extend($.expr[':'], {
+                    'containsi': function (elem, i, match, array) {
+                        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
+                    }
+                });
+
+                $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function (e) {
+                    $(this).attr('visible', 'false');
+                });
+
+                $(".results tbody tr:containsi('" + searchSplit + "')").each(function (e) {
+                    $(this).attr('visible', 'true');
+                });
+
+                var jobCount = $('.results tbody tr[visible="true"]').length;
+                $('.counter').text(jobCount + ' item');
+
+                if (jobCount == '0') { $('.no-result').show(); }
+                else { $('.no-result').hide(); }
+            });
+        });
+
+        const data = {
+            columns: [
+                {
+                    label: 'Name',
+                    field: 'name'
+                },
+                'Position',
+                'Office',
+                'Age',
+                'Start date',
+                'Salary',
+            ],
+            rows: [
+                ["Tiger Nixon", "System Architect", "Edinburgh", "61", "2011/04/25", "$320,800"],
+                ["Garrett Winters", "Accountant", "Tokyo", "63", "2011/07/25", "$170,750"],
+                ["Ashton Cox", "Junior Technical Author", "San Francisco", "66", "2009/01/12", "$86,000"],
+                ["Cedric Kelly", "Senior Javascript Developer", "Edinburgh", "22", "2012/03/29", "$433,060"],
+                ["Airi Satou", "Accountant", "Tokyo", "33", "2008/11/28", "$162,700"],
+                ["Brielle Williamson", "Integration Specialist", "New York", "61", "2012/12/02", "$372,000"],
+                ["Herrod Chandler", "Sales Assistant", "San Francisco", "59", "2012/08/06", "$137,500"],
+                ["Rhona Davidson", "Integration Specialist", "Tokyo", "55", "2010/10/14", "$327,900"],
+                ["Colleen Hurst", "Javascript Developer", "San Francisco", "39", "2009/09/15", "$205,500"],
+                ["Sonya Frost", "Software Engineer", "Edinburgh", "23", "2008/12/13", "$103,600"],
+                ["Jena Gaines", "Office Manager", "London", "30", "2008/12/19", "$90,560"],
+                ["Quinn Flynn", "Support Lead", "Edinburgh", "22", "2013/03/03", "$342,000"],
+                ["Charde Marshall", "Regional Director", "San Francisco", "36", "2008/10/16", "$470,600"],
+                ["Haley Kennedy", "Senior Marketing Designer", "London", "43", "2012/12/18", "$313,500"]
+            ],
+        };
+
+        const instance = new mdb.Datatable(document.getElementById('datatable'), data)
+
+        document.getElementById('datatable-search-input').addEventListener('input', (e) => {
+            instance.search(e.target.value);
+        });
+    </script>
 </body>

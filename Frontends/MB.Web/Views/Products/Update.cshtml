@@ -14,7 +14,7 @@
                         </div>
                     </div>
 
-                    <form class="needs-validation" asp-controller="Products" asp-action="Update" method="post" novalidate>
+                    <form class="needs-validation" asp-controller="Products" asp-action="Update" method="post" enctype="multipart/form-data" novalidate>
                         <div asp-validation-summary="ModelOnly"></div>
                         <input type="hidden" asp-for="Id" />
                         <input type="hidden" asp-for="Picture" />
@@ -23,21 +23,19 @@
                             <div class="col-md-6">
                                 <label for="exampleFormControlInput1" class="form-label" asp-for="CategoryId"></label>
                                 <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categoryList" id="categoryField" required></select>
-                                @* <span class="text-danger" asp-validation-for="CategoryId"></span> *@
+                                <span class="text-danger" asp-validation-for="CategoryId"></span>
                             </div>
 
                             <div class="col-md-6">
                                 <label asp-for="Name" class="form-label"></label>
-                                <input asp-for="Name" class="form-control" pattern="[a-zA-Z0-9*'?!.\s]{3,50}" required />
-                                @* <span class="text-danger" asp-validation-for="Name"></span> *@
+                                <input asp-for="Name" class="form-control" pattern="[a-zA-Z0-9*'?!.\s]{3,}" required />
                             </div>
                         </div>
 
                         <div class="row mb-3 pt-1">
                             <div class="book-price col-md-6" id="priceField">
                                 <label asp-for="Price" class="form-label"></label>
-                                <input asp-for="Price" class="form-control" pattern="[0-9,]{3,50}" required />
-                                @* <span class="text-danger" asp-validation-for="Price"></span> *@
+                                <input asp-for="Price" class="form-control" pattern="[0-9,]{1,10}" required />
                             </div>
 
                             <div class="col-md-6" id="publishedDateField">
@@ -62,23 +60,20 @@
                             </div>
                         </div>
 
-
                         <div class="row mb-3">
                             <div class="col-md-12">
                                 <label asp-for="Description" class="form-label"></label>
-                                <textarea asp-for="Description" class="form-control" pattern="[a-zA-Z0-9*'?!.\s]{3,50}" required ></textarea>
-                                @* <span class="text-danger" asp-validation-for="Description"></span> *@
+                                <textarea asp-for="Description" class="form-control" pattern="[a-zA-Z0-9*'?!.\s]{3,}" required ></textarea>
                             </div>
 
                             <div class="col-md-12 mt-3">
                                 <label class="form-label" asp-for="PhotoFormFile"></label>
                                 <input type="file" asp-for="PhotoFormFile" class="form-control" required/>
-                                @* <span class="text-danger" asp-validation-for="PhotoFormFile"></span> *@
                             </div>
                         </div>
 
                         <div class="row mb-3 mt-4 ml-0" style="width: 1070px;">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Save</button>
+                            <button type="submit" class="btn btn-primary" style="border-radius: 20px;"><i class="fas fa-save"></i> Save</button>
                         </div>
                     </form>
                 </div>
@@ -89,11 +84,15 @@
 </body>
 
 <script>
+
+    var selectedCategory = document.getElementById("categoryField");
+    var selectedCategoryValue = selectedCategory.options[selectedCategory.selectedIndex].text;
+
+    if (selectedCategoryValue != "Book" ) {
+        hideFields();
+    }
+
     document.getElementById("categoryField").addEventListener("change", function () {
-
-        var selectedCategory = document.getElementById("categoryField");
-        var selectedCategoryValue = selectedCategory.options[selectedCategory.selectedIndex].text;
-
         if (selectedCategoryValue == "Book") {
             document.getElementById("authorField").style.display = "block";
             document.getElementById("authorFieldValue").value = "";

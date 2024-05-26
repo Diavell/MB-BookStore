@@ -1,4 +1,5 @@
 ﻿using MB.Shared.Services;
+using MB.Web.Models;
 using MB.Web.Models.Catalog;
 using MB.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Authorization;
@@ -21,9 +22,12 @@ namespace MB.Web.Controllers
             _sharedIdentityService = sharedIdentityService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
-            return View(await _catalogService.GetAllProductsAsync());
+            int pageSize = 5;
+            var products = await _catalogService.GetAllProductsAsync();
+            var queryableProducts = products.AsQueryable();
+            return View(PaginatedList<ProductViewModel>.Create(queryableProducts, pageNumber ?? 1, pageSize));
         }
 
         public async Task<IActionResult> Create()

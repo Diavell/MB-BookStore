@@ -45,9 +45,11 @@ namespace MB.Web.Controllers
             var numberOfCategories = await _adminService.NumberOfCategories();
             ViewBag.NumberOfCategories = numberOfCategories;
             
-            var mostPopularProduct = await _adminService.MostPopularProduct();
-            ViewBag.MostPopularProductMonthly = mostPopularProduct.Monthly;
-            ViewBag.MostPopularProductAnnual = mostPopularProduct.Annual;
+            var mostPopularProductMonthly = await _adminService.MostPopularProduct(TimePeriodEnum.Monthly);
+            ViewBag.MostPopularProductMonthly = mostPopularProductMonthly;
+
+            var mostPopularProduct = await _adminService.MostPopularProduct(TimePeriodEnum.Annual);
+            ViewBag.MostPopularProductAnnual = mostPopularProduct;
 
             var salesOfProductsChart = await _adminService.SalesOfProductsChart();
             ViewBag.SalesOfProductsChart = JsonConvert.SerializeObject(salesOfProductsChart);

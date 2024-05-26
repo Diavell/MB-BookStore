@@ -22,10 +22,7 @@
                             <div class="text-center">
                             </div>
                             <form class="user">
-                                <div class="form-group pt-3">
-                                    <input asp-for="Id" type="text" class="form-control form-control-user"
-                                           id="exampleID" placeholder="ID" disabled>
-                                </div>
+                                <input type="hidden" asp-for="Id" />
                                 <div class="form-group pt-3">
                                     <input asp-for="UserName" type="text" class="form-control form-control-user"
                                            id="exampleFirstName" placeholder="Full Name" disabled>
@@ -39,8 +36,9 @@
                                            id="exampleInputCity" placeholder="City" disabled>
                                 </div>
                                 <div asp-validation-summary="ModelOnly" class="text-danger pb-2"></div>
-                                <a asp-controller="User" asp-action="Update" asp-route-id="@Model.Id" type="button" class="btn btn-primary btn-user btn-block">
-                                    Update Profile
+                                <a asp-controller="User" asp-action="Update" asp-route-id="@Model.Id" 
+                                   type="button" class="btn btn-primary btn-user btn-block">
+                                   Update Profile
                                 </a>
                                 <hr>
                             </form>

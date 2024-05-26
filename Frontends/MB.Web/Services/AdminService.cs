@@ -90,33 +90,31 @@ namespace MB.Web.Services
             return response.Count;
         }
         
-        public async Task<TimePeriod> MostPopularProduct()
+        public async Task<string> MostPopularProduct(TimePeriodEnum period)
         {
-            // Annually
             var orders = await _orderService.GetAllOrders();
 
-            var allOrderItems = orders.SelectMany(order => order.OrderItems);
+            DateTime now = DateTime.Now;
 
-            var mostPopularProductAnnually = allOrderItems
-                .GroupBy(item => item.ProductId)
-                .OrderByDescending(group => group.Sum(item => item.Quantity))
-                .FirstOrDefault()?.FirstOrDefault()?.ProductName;
+            IEnumerable<OrderViewModel> filteredOrders;
 
-            // Monthly
-            var monthltyOrders = orders.Where(x => x.CreatedDate.Month == DateTime.Now.Month).ToList();
-
-            var monthltyOrderItems = monthltyOrders.SelectMany(order => order.OrderItems);
-
-            var mostPopularProductMonthly = monthltyOrderItems
-                .GroupBy(item => item.ProductId)
-                .OrderByDescending(group => group.Sum(item => item.Quantity))
-                .FirstOrDefault()?.FirstOrDefault()?.ProductName;
-
-            return new TimePeriod
+            if (period == TimePeriodEnum.Monthly)
             {
-                Annual = mostPopularProductAnnually,
-                Monthly = mostPopularProductMonthly
-            };
+                filteredOrders = orders.Where(x => x.CreatedDate.Month == now.Month && x.CreatedDate.Year == now.Year);
+            }
+            else
+            {
+                filteredOrders = orders.Where(x => x.CreatedDate.Year == now.Year);
+            }
+
+            var orderItems = filteredOrders.SelectMany(order => order.OrderItems);
+
+            var mostPopularProduct = orderItems
+                .GroupBy(item => item.ProductId)
+                .OrderByDescending(group => group.Sum(item => item.Quantity))
+                .FirstOrDefault()?.FirstOrDefault()?.ProductName;
+
+            return mostPopularProduct;
         }
 
         public async Task<List<DataPoint>> SalesOfProductsChart()

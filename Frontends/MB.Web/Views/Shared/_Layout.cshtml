@@ -16,7 +16,6 @@
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
-    @* <link href="~/css/sb-admin-2.min.css" rel="stylesheet"> *@
     <link href="~/css/sb-admin-2.css" rel="stylesheet" />
 
     <link rel="stylesheet" href="~/css/bootstrap.css">
@@ -69,7 +68,7 @@
                             }
 
                         </div>
-                        <div class="col-lg-5 col-10 mx-auto">
+                        @* <div class="col-lg-5 col-10 mx-auto">
                             <div class="input-group">
                                 <input id="searchInput" class="form-control me-2" type="search" placeholder="Search" aria-label="Search" onchange="updateRouteId()">
                                 <div class="input-group-append">
@@ -78,9 +77,9 @@
                                     </a>
                                 </div>
                             </div>
-                        </div>
+                        </div> *@
 
-                        <script>
+                        @* <script>
                             let originalHref = "http://localhost:5010/Home/SearchProduct";
 
                             function updateRouteId() {
@@ -90,7 +89,7 @@
                                     originalHref = searchButton.href;
                                 searchButton.href = originalHref + "/" + searchTerm;
                             }
-                        </script>
+                        </script> *@
                     </div>
                 </div>
                 <div class="container">
@@ -236,14 +235,8 @@
         </main>
     </div>
 
-    @* <footer class="border-top footer text-muted mt-5">
-        <div class="container">
-            &copy; 2024 - MB Bookstore - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer> *@
-
     <!-- Footer -->
-    <footer style="background-color:#2E3032" class="d-print-none">
+    <footer style="background-color:#2E3032" class="d-print-none mt-5">
         <div class="container">
             <div class="row pb-3">
                 <div class="col-12 pt-4 text-center text-light">
@@ -255,10 +248,11 @@
             <div class="row">
                 <div class="col text-center text-light">
                     <div class="mb-2">
-                        <a href="javascript:void(0)" class="mx-sm-4 mx-2"><i class="fab fa-facebook fa-2x text-primary"></i></a>
-                        <a href="javascript:void(0)" class="mx-sm-4 mx-2"><i class="fab fa-twitter fa-2x text-info"></i></a>
-                        <a href="javascript:void(0)" class="mx-sm-4 mx-2"><i class="fab fa-instagram fa-2x text-danger"></i></a>
-                        <a href="javascript:void(0)" class="mx-sm-4 mx-2"><i class="fab fa-linkedin fa-2x text-info"></i></a>
+                        <a href="https://www.facebook.com/" class="mx-sm-4 mx-2"><i class="fab fa-facebook fa-2x text-primary"></i></a>
+                        <a href="https://twitter.com/" class="mx-sm-4 mx-2"><i class="fab fa-twitter fa-2x text-info"></i></a>
+                        <a href="https://www.instagram.com/" class="mx-sm-4 mx-2"><i class="fab fa-instagram fa-2x text-danger"></i></a>
+                        <a href="https://www.youtube.com/" class="mx-sm-4 mx-2"><i class="fab fa-youtube fa-2x text-danger"></i></a>
+                        <a href="https://www.linkedin.com/" class="mx-sm-4 mx-2"><i class="fab fa-linkedin fa-2x text-info"></i></a>
                     </div>
                 </div>
             </div>
@@ -277,7 +271,6 @@
     <script src="/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap-5.3.3/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
-    @* <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script> *@
 
     <script src="~/js/jquery-3.3.1.min.js"></script>
     <script src="~/js/popper.js"></script>

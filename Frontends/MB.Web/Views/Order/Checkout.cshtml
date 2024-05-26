@@ -25,7 +25,7 @@
         <main>
             <div class="row">
                 <div class="col text-center py-5">
-                    <h1 class="text-secondary text-uppercase font-italic common-title">Order History</h1>
+                    <h1 class="text-secondary text-uppercase font-italic common-title">Checkout</h1>
                 </div>
             </div>
 
@@ -57,46 +57,46 @@
 
                 <div class="col-md-7 col-lg-8">
                     <h4 class="mb-3">Billing Address</h4>
-                    <form class="needs-validation" asp-controller="Order" asp-action="Checkout" method="post" novalidate>
+                    <form class=" user needs-validation" asp-controller="Order" asp-action="Checkout" method="post" novalidate>
                         <div class="row g-3">
 
-                            <div class="col-6">
+                            <div class="form-group col-6">
+                                <input asp-for="Street" type="text" class="form-control form-control-user" id="street" pattern="[a-z 0-9]{3,50}" required>
                                 <label asp-for="Street" class="form-label"></label>
-                                <input asp-for="Street" type="text" class="form-control" id="street" pattern="[a-z 0-9]{3,50}" required>
                                 <div class="invalid-feedback">
-                                    Please enter a valid email address for shipping updates.
+                                    Please enter a valid email address for shipping updates
                                 </div>
                             </div>
 
-                            <div class="col-6">
+                            <div class="form-group col-6">
+                                <input asp-for="Line" type="text" class="form-control form-control-user" id="line" pattern="[a-z 0-9]{3,50}" required>
                                 <label asp-for="Line" class="form-label"></label>
-                                <input asp-for="Line" type="text" class="form-control" id="line" pattern="[a-z 0-9]{3,50}" required>
                                 <div class="invalid-feedback">
                                     Please enter your shipping address
                                 </div>
                             </div>
 
-                            <div class="col-md-5">
+                            <div class="form-group col-md-4">
+                                <input asp-for="Province" type="text" class="form-control form-control-user" id="province" pattern="[a-z]{3,50}" required>
                                 <label asp-for="Province" class="form-label"></label>
-                                <input asp-for="Province" type="text" class="form-control" id="province" pattern="[a-z]{3,50}" required>
                                 <div class="invalid-feedback">
-                                    Please select a valid province.
+                                    Please provide a valid province
                                 </div>
                             </div>
 
-                            <div class="col-md-5">
+                            <div class="form-group col-md-4">
+                                <input asp-for="District" type="text" class="form-control form-control-user" id="district" pattern="[a-z]{3,50}" required>
                                 <label asp-for="District" class="form-label"></label>
-                                <input asp-for="District" type="text" class="form-control" id="district" pattern="[a-z]{3,50}" required>
                                 <div class="invalid-feedback">
-                                    Please provide a valid district.
+                                    Please provide a valid district
                                 </div>
                             </div>
 
-                            <div class="col-md-2">
+                            <div class="form-group col-md-4">
+                                <input asp-for="ZipCode" type="text" class="form-control form-control-user" id="zipcode" pattern="[0-9]{5}" maxlength="5" required>
                                 <label asp-for="ZipCode" class="form-label"></label>
-                                <input asp-for="ZipCode" type="text" class="form-control" id="zipcode" placeholder="" pattern="[0-9]{5}" maxlength="5" required>
                                 <div class="invalid-feedback">
-                                    Zip code required.
+                                    Please provide a valid zip code
                                 </div>
                             </div>
                         </div>
@@ -106,46 +106,44 @@
                         <h4 class="mb-3">Payment Information</h4>
 
                         <div class="row gy-3">
-                            <div class="col-md-6">
+                            <div class="form-group col-md-6">
+                                <input asp-for="CardHolderName" type="text" class="form-control form-control-user" id="cardHolderName" pattern="[a-z]{5,50}" required>
                                 <label asp-for="CardHolderName" class="form-label"></label>
-                                <input asp-for="CardHolderName" type="text" class="form-control" id="cardHolderName" placeholder="Full name as displayed on card" pattern="[a-z]{5,50}" required>
                                 <div class="invalid-feedback">
-                                    Name on card is required
+                                    Please provide a valid name on card
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="form-group col-md-6">
+                                <input asp-for="CardNumber" type="text" class="form-control form-control-user" id="cardNumber" pattern="[0-9]" maxlength="16" required>
                                 <label asp-for="CardNumber" class="form-label"></label>
-                                <input asp-for="CardNumber" type="text" class="form-control" id="cardNumber" placeholder="xxxx xxxx xxxx xxxx" pattern="[0-9]{16}" maxlength="16" required>
                                 <div class="invalid-feedback">
-                                    Credit card number is required
+                                    Please provide a valid credit card number
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
-                                <label asp-for="ExpiryDate" class="form-label"></label>
-                                <input asp-for="ExpiryDate" type="month" class="form-control" id="expiryDate" placeholder="" value="" required>
+                            <div class="form-group col-md-6">
+                                <input asp-for="ExpiryDate" type="month" class="form-control form-control-user" id="expiryDate" value="" required>
+                                @* <label asp-for="ExpiryDate" class="form-label"></label> *@
                                 <div class="invalid-feedback">
-                                    Expiration date required
+                                    Please provide a valid expiration date
                                 </div>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="form-group col-md-6">
+                                <input asp-for="CVV" type="text" class="form-control form-control-user" id="cvv" pattern="[0-9]{3}" maxlength="3" required>
                                 <label asp-for="CVV" class="form-label"></label>
-                                <input asp-for="CVV" type="text" class="form-control" id="cvv" placeholder="" pattern="[0-9]{3}" maxlength="3" required>
                                 <div class="invalid-feedback">
-                                    Security code required
+                                    Please provide a valid security code
                                 </div>
                             </div>
                         </div>
 
-                        <hr class="my-4">
+                        <hr class="my-3">
 
-                        <button class="w-100 btn btn-primary btn-lg mb-2" type="submit">Continue to checkout</button>
+                        <button class="w-100 btn btn-primary btn-lg mb-5" style="border-radius: 20px;" type="submit">Continue to checkout</button>
                         <a class="btn btn-secondary mb-5" style="width:100px" type="button" href="#" onclick="history.back();">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-arrow-return-left" viewBox="0 0 16 16">
-                                <path fill-rule="evenodd" d="M14.5 1.5a.5.5 0 0 1 .5.5v4.8a2.5 2.5 0 0 1-2.5 2.5H2.707l3.347 3.346a.5.5 0 0 1-.708.708l-4.2-4.2a.5.5 0 0 1 0-.708l4-4a.5.5 0 1 1 .708.708L2.707 8.3H12.5A1.5 1.5 0 0 0 14 6.8V2a.5.5 0 0 1 .5-.5" />
-                            </svg>
+                            <i class="bi bi-arrow-return-left"></i>
                         </a>
                     </form>
                 </div>
@@ -153,4 +151,49 @@
         </main>
     </div>
     <script src="~/js/checkout.js"></script>
+    @* <style>
+        .form-group {
+            position: relative;
+            margin-bottom: 1.5rem;
+        }
+
+        .form-control {
+            width: 100%;
+            height: 2.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            padding: 0.5rem;
+            transition: border-color 0.3s ease-in-out;
+        }
+
+            .form-control:focus {
+                border-color: #007bff;
+                outline: none;
+            }
+
+        .form-label {
+            position: absolute;
+            top: 0.7rem;
+            left: 2rem;
+            background-color: #fff;
+            padding: 0 0.25rem;
+            transition: transform 0.3s ease-in-out, font-size 0.3s ease-in-out;
+        }
+
+        /* Apply styles when the input is focused or has a value */
+        .form-control:focus + .form-label,
+        .form-control:not(:placeholder-shown) + .form-label,
+        .form-control:valid + .form-label {
+            transform: translateY(-1rem) scale(0.75);
+            font-size: 0.80rem;
+            color: #007bff;
+        }
+
+        /* Reset styles when the input is not focused and has no value */
+        .form-control:not(:focus):not(:valid) + .form-label {
+            transform: translateY(0) scale(1);
+            font-size: 1rem;
+            color: #000;
+        }
+    </style> *@
 </body>

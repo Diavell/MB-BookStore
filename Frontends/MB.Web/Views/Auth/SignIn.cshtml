@@ -19,17 +19,17 @@
                                     </div>
                                     <div class="text-center pt-5">
                                     </div>
-                                    <form class="user" asp-controller="Auth" asp-action="SignIn" method="post">
+                                    <form class="user needs-validation" asp-controller="Auth" asp-action="SignIn" method="post" novalidate>
                                         <div class="form-group pt-3">
                                             <input asp-for="Email" type="email" value="erdemca@hotmail.com" class="form-control form-control-user"
                                                    id="exampleInputEmail" aria-describedby="emailHelp"
-                                                   placeholder="Enter Email Address...">
+                                                   placeholder="Enter Email Address..." required>
                                         </div>
                                         <div class="form-group pt-5 pb-3">
                                             <input asp-for="Password" type="password" value="Password12*" class="form-control form-control-user"
-                                                   id="exampleInputPassword" placeholder="Password">
+                                                   id="exampleInputPassword" placeholder="Password" required>
                                         </div>
-                                        <div asp-validation-summary="ModelOnly" class="text-danger pb-2"></div>
+                                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                                         <button type="submit" class="btn btn-primary btn-user btn-block mt-5">
                                             Login
                                         </button>
@@ -49,4 +49,5 @@
             </div>
         </div>
     </div>
+    <script src="~/js/checkout.js"></script>
 </body>

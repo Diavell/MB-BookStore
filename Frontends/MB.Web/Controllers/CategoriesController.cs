@@ -1,5 +1,7 @@
 ﻿using MB.Shared.Services;
+using MB.Web.Models;
 using MB.Web.Models.Catalog;
+using MB.Web.Services;
 using MB.Web.Services.Interfaces;
 using Microsoft.AspNetCore.Mvc;
 
@@ -16,11 +18,12 @@ namespace MB.Web.Controllers
             _sharedIdentityService = sharedIdentityService;
         }
 
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int? pageNumber)
         {
+            int pageSize = 5;
             var categories = await _catalogService.GetAllCategoriesAsync();
-
-            return View(categories);
+            var queryableCategories = categories.AsQueryable();
+            return View(PaginatedList<CategoryViewModel>.Create(queryableCategories, pageNumber ?? 1, pageSize));
         }
 
         public IActionResult Create()

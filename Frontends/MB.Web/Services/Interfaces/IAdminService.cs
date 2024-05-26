@@ -10,7 +10,7 @@ namespace MB.Web.Services.Interfaces
         Task<int> NumberOfMembers();
         Task<int> NumberOfProducts();
         Task<int> NumberOfCategories();
-        Task<TimePeriod> MostPopularProduct();
+        Task<string> MostPopularProduct(TimePeriodEnum period);
         Task<List<DataPoint>> SalesOfProductsChart();
         Task<List<DataPoint>> NumberOfOrdersChart();
         Task<List<DataPoint>> TotalOrderAmountsChart();
