@@ -5,34 +5,71 @@
 @model PaginatedList<UserViewModel>
 
 <body style="background-color:antiquewhite">
-    <div class="row pt-3 pb-3" style="background-color:#FFFFFF; border-radius: 50px;">
-        <div class="col-md-12">
-            <div>
+    <div>
+        <div class="row pt-3 pb-3" style="background-color:#FFFFFF; border-radius: 50px">
+            <div class="col-md-12">
                 <div class="row">
                     <div class="col text-center py-5">
-                        <h1 class="text-secondary text-uppercase font-italic common-title">Members</h1>
-                    </div>
-                    <div class="form-group">
-                        <input type="text" class="search form-control" style="border-radius: 20px;" placeholder="What are you looking for?">
+                        <h1 class="text-secondary text-uppercase font-italic common-title">Products</h1>
                     </div>
                 </div>
+                <div class="row mb-3">
+                    <div class="col">
+                        <form method="get" asp-controller="User" asp-action="AllUsers" class="form-inline my-2 my-lg-0 w-100">
+                            <input type="text" name="searchQuery" class="form-control mr-sm-2 w-75" style="border-radius: 20px;" placeholder="What are you looking for?" value="@ViewData["CurrentFilter"]">
+                            <button type="submit" class="btn btn-secondary w-25" style="border-radius: 20px;"><i class="bi bi-search"></i></button>
+                        </form>
+                    </div>
+                </div>
+
+                <style>
+                    .form-inline {
+                        display: flex;
+                        width: 100%;
+                    }
+
+                        .form-inline .form-control {
+                            flex: 1;
+                            margin-right: 10px;
+                        }
+
+                        .form-inline .btn {
+                            flex: 0;
+                        }
+                </style>
+
                 @if (Model.Any())
                 {
                     <div>
-                        <table class="table table-striped results">
+                        <table class="table table-striped results" style="border-radius: 50px; width: 100%;">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
-                                    <th>UserName</th>
-                                    <th>Email</th>
-                                    <th>City</th>
-                                    <th>Actions</th>
+                                    <th>
+                                        <a asp-action="AllUsers" asp-route-sortOrder="@ViewData["IdSortParm"]" class="text-dark">
+                                            Id
+                                            @if (ViewData["CurrentSort"]?.ToString() == "id_desc")
+                                            {
+                                                <span>&#9660;</span>
+                                            }
+                                            else if (ViewData["CurrentSort"]?.ToString() == "Id")
+                                            {
+                                                <span>&#9650;</span>
+                                            }
+                                            else
+                                            {
+                                                <span>&#8597;</span>
+                                            }
+                                        </a>
+                                    </th>
+                                    <th class="text-dark">UserName</th>
+                                    <th class="text-dark">Email</th>
+                                    <th class="text-dark">City</th>
+                                    <th class="text-dark">Actions</th>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach (var user in Model)
                                 {
-
                                     <tr>
                                         <td>@user.Id</td>
                                         <td>@user.UserName</td>
@@ -47,44 +84,43 @@
                                 }
                             </tbody>
                         </table>
+                        <nav aria-label="Page navigation example">
+                            <ul class="pagination justify-content-center">
+                                @if (Model.HasPreviousPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="AllUsers" asp-route-searchQuery="@ViewData["CurrentFilter"]" asp-route-pageNumber="@(Model.PageIndex - 1)" asp-route-sortOrder="@ViewData["CurrentSort"]">Previous</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">Previous</a>
+                                    </li>
+                                }
+
+                                @for (int i = 1; i <= Model.TotalPages; i++)
+                                {
+                                    <li class="page-item @(Model.PageIndex == i ? "active" : "")">
+                                        <a class="page-link" asp-action="AllUsers" asp-route-searchQuery="@ViewData["CurrentFilter"]" asp-route-pageNumber="@i" asp-route-sortOrder="@ViewData["CurrentSort"]">@i</a>
+                                    </li>
+                                }
+
+                                @if (Model.HasNextPage)
+                                {
+                                    <li class="page-item">
+                                        <a class="page-link" asp-action="AllUsers" asp-route-searchQuery="@ViewData["CurrentFilter"]" asp-route-pageNumber="@(Model.PageIndex + 1)" asp-route-sortOrder="@ViewData["CurrentSort"]">Next</a>
+                                    </li>
+                                }
+                                else
+                                {
+                                    <li class="page-item disabled">
+                                        <a class="page-link" href="#">Next</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
                     </div>
-
-                    <nav aria-label="Page navigation example">
-                        <ul class="pagination justify-content-center">
-                            @if (Model.HasPreviousPage)
-                            {
-                                <li class="page-item">
-                                    <a class="page-link" asp-action="AllUsers" asp-route-pageNumber="@(Model.PageIndex - 1)">Previous</a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#">Previous</a>
-                                </li>
-                            }
-
-                            @for (int i = 1; i <= Model.TotalPages; i++)
-                            {
-                                <li class="page-item @(Model.PageIndex == i ? "active" : "")">
-                                    <a class="page-link" asp-action="AllUsers" asp-route-pageNumber="@i">@i</a>
-                                </li>
-                            }
-
-                            @if (Model.HasNextPage)
-                            {
-                                <li class="page-item">
-                                    <a class="page-link" asp-action="AllUsers" asp-route-pageNumber="@(Model.PageIndex + 1)">Next</a>
-                                </li>
-                            }
-                            else
-                            {
-                                <li class="page-item disabled">
-                                    <a class="page-link" href="#">Next</a>
-                                </li>
-                            }
-                        </ul>
-                    </nav>
                 }
                 else
                 {
@@ -96,36 +132,9 @@
         </div>
     </div>
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script>
+    <script type="text/javascript">
         function confirmDelete(userId) {
             return confirm("Are you sure you want to delete the member with ID " + userId + "?");
         }
-        $(document).ready(function () {
-            $(".search").keyup(function () {
-                var searchTerm = $(".search").val();
-                var listItem = $('.results tbody').children('tr');
-                var searchSplit = searchTerm.replace(/ /g, "'):containsi('")
-
-                $.extend($.expr[':'], {
-                    'containsi': function (elem, i, match, array) {
-                        return (elem.textContent || elem.innerText || '').toLowerCase().indexOf((match[3] || "").toLowerCase()) >= 0;
-                    }
-                });
-
-                $(".results tbody tr").not(":containsi('" + searchSplit + "')").each(function (e) {
-                    $(this).attr('visible', 'false');
-                });
-
-                $(".results tbody tr:containsi('" + searchSplit + "')").each(function (e) {
-                    $(this).attr('visible', 'true');
-                });
-
-                var jobCount = $('.results tbody tr[visible="true"]').length;
-                $('.counter').text(jobCount + ' item');
-
-                if (jobCount == '0') { $('.no-result').show(); }
-                else { $('.no-result').hide(); }
-            });
-        });
     </script>
 </body>

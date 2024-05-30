@@ -13,65 +13,70 @@
                             <h1 class="text-secondary text-uppercase font-italic common-title">Create Product</h1>
                         </div>
                     </div>
-                    <form class="needs-validation" asp-controller="Products" asp-action="Create" method="post" enctype="multipart/form-data" novalidate>
+                    <form class="user needs-validation" asp-controller="Products" asp-action="Create" method="post" enctype="multipart/form-data" novalidate>
                         <div asp-validation-summary="ModelOnly"></div>
 
                         <div class="row mb-3 mt-1">
                             <div class="col-md-6">
-                                <label for="exampleFormControlInput1" class="form-label" asp-for="CategoryId"></label>
-                                <select asp-for="CategoryId" class="form-control" asp-items="@ViewBag.categoryList" id="categoryField" required>
-                                    <option value="">select category</option>
+                                <select asp-for="CategoryId" class="form-control form-control-user" style="height:3.5rem;" asp-items="@ViewBag.categoryList" id="categoryField" required>
+                                    <option value="" hidden>select category</option>
                                 </select>
+                                @* <label for="exampleFormControlInput1" class="form-label" asp-for="CategoryId"></label> *@
                                 <span class="text-danger" asp-validation-for="CategoryId"></span>
                             </div>
 
-                            <div class="col-md-6">
+                            <div class="form-group col-md-6">
+                                <input asp-for="Name" class="form-control form-control-user" pattern="[a-zA-Z0-9*'?!.\s]{3,}" required />
                                 <label asp-for="Name" class="form-label"></label>
-                                <input asp-for="Name" class="form-control" pattern="[a-zA-Z0-9*'?!.\s]{3,}" required />
                             </div>
                         </div>
                         
                         <div class="row mb-3 pt-1">
-                            <div class="book-price col-md-6" id="priceField">
+                            <div class="book-price form-group col-md-6" id="priceField">
+                                
+                                <input asp-for="Price" class="form-control form-control-user" pattern="[0-9,]{1,10}" required />
                                 <label asp-for="Price" class="form-label"></label>
-                                <input asp-for="Price" class="form-control" pattern="[0-9,]{1,10}" required />
                             </div>
 
-                            <div class="col-md-6" id="publishedDateField">
-                                <label asp-for="Feature.PublishedDate" class="form-label"></label>
-                                <input asp-for="Feature.PublishedDate" class="form-control" id="publishedDateFieldValue" type="date"/>
+                            <div class="form-group col-md-6" id="publishedDateField">
+                                
+                                <input asp-for="Feature.PublishedDate" class="form-control form-control-user" id="publishedDateFieldValue" type="date" />
+                                @* <label asp-for="Feature.PublishedDate" class="form-label"></label> *@
                                 <span class="text-danger" asp-validation-for="Feature.PublishedDate"></span>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-6" id="authorField">
-                                <label asp-for="Feature.Author" class="form-label"></label>
-                                <input asp-for="Feature.Author" class="form-control" id="authorFieldValue"/>
+                                
+                                <input asp-for="Feature.Author" class="form-control form-control-user" id="authorFieldValue" placeholder="Author"/>
+                                @* <label asp-for="Feature.Author" class="form-label"></label> *@
                                 <span class="text-danger" asp-validation-for="Feature.Author"></span>
                             </div>
 
                             <div class="col-md-6" id="ISBNField">
-                                <label asp-for="Feature.ISBN" class="form-label"></label>
-                                <input asp-for="Feature.ISBN" class="form-control" id="ISBNFieldValue"/>
+                                <input asp-for="Feature.ISBN" class="form-control form-control-user" id="ISBNFieldValue" placeholder="ISBN"/>
+                                @* <label asp-for="Feature.ISBN" class="form-label"></label> *@
                                 <span class="text-danger" asp-validation-for="Feature.ISBN"></span>
                             </div>
                         </div>
 
                         <div class="row mb-3">
                             <div class="col-md-12">
+                                
+                                <textarea asp-for="Description" class="form-control form-control-user" pattern="[a-zA-Z0-9*'?!.\s]{3,}" required></textarea>
                                 <label asp-for="Description" class="form-label"></label>
-                                <textarea asp-for="Description" class="form-control" pattern="[a-zA-Z0-9*'?!.\s]{3,}" required ></textarea>
                             </div>
 
-                            <div class="col-md-12 mt-3">
-                                <label class="form-label" asp-for="PhotoFormFile"></label>
-                                <input type="file" asp-for="PhotoFormFile" class="form-control" required/>
+                            <div class="col-md-12 mt-4">
+                                
+                                <input type="file" asp-for="PhotoFormFile" class="form-control mt-1" style="border-radius:20px; height:56px;" required/>
+                                @* <label class="form-label" asp-for="PhotoFormFile"></label> *@
                             </div>
                         </div>
                         
                         <div class="row mb-3 mt-4 ml-0" style="width: 1070px;">
-                            <button type="submit" class="btn btn-primary" style="border-radius: 20px;"><i class="fas fa-save"></i> Save</button>
+                            <button type="submit" class="btn btn-primary" style="border-radius: 160px;"><i class="fas fa-save"></i> Save</button>
                         </div>
                     </form>
                 </div>
@@ -90,6 +95,8 @@
         var selectedCategoryValue = selectedCategory.options[selectedCategory.selectedIndex].text;
 
         if (selectedCategoryValue == "Book") {
+            // document.getElementById("featureFields").style.display = "block";
+
             document.getElementById("authorField").style.display = "block";
             document.getElementById("authorFieldValue").value = "";
 
@@ -110,6 +117,8 @@
         document.getElementById('authorField').style.display = 'none';
         document.getElementById('ISBNField').style.display = 'none';
         document.getElementById('publishedDateField').style.display = 'none';
+        // document.getElementById('featureFields').style.display = 'none';
+
 
         document.querySelector('.book-price').classList.remove('col-md-6');
         document.querySelector('.book-price').classList.add('col-md-12');

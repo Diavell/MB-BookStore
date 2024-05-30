@@ -14,14 +14,16 @@
                             <h1 class="text-secondary text-uppercase font-italic common-title">Create Category</h1>
                         </div>
                     </div>
-                    <form class="needs-validation" asp-controller="Categories" asp-action="Create" method="post" novalidate>
+                    <form class="user needs-validation" asp-controller="Categories" asp-action="Create" method="post" novalidate>
                         <div asp-validation-summary="ModelOnly"></div>
-                        <div class="mb-3">
-                            <label asp-for="Name" class="form-label"></label>
-                            <input asp-for="Name" type="text" class="form-control" pattern="[a-zA-Z0-9*'?!.\s]{3,50}" required />
-                        </div>
-                        <div class="row mb-3 mt-4 ml-0" style="width: 1070px;">
-                            <button type="submit" class="btn btn-primary" style="border-radius: 20px;"><i class="fas fa-save"></i> Save</button>
+                        <div class="form-group">
+                            <div class="mb-3">
+                                <input asp-for="Name" type="text" class="form-control form-control-user" pattern="[a-zA-Z0-9*'?!.\s]{3,50}" required />
+                                <label asp-for="Name" class="form-label"></label>
+                            </div>
+                            <div class="row mb-3 mt-4 ml-0" style="width: 1070px;">
+                                <button type="submit" class="btn btn-primary" style="border-radius: 20px;"><i class="fas fa-save"></i> Save</button>
+                            </div>
                         </div>
                     </form>
                 </div>

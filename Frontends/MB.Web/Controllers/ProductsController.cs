@@ -21,12 +21,51 @@ namespace MB.Web.Controllers
             _catalogService = catalogService;
             _sharedIdentityService = sharedIdentityService;
         }
-
-        public async Task<IActionResult> Index(int? pageNumber)
+        
+        public async Task<IActionResult> Index(string sortOrder, int? pageNumber, string searchQuery)
         {
-            int pageSize = 5;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = searchQuery;
+            ViewData["IdSortParm"] = sortOrder == "Id" ? "id_desc" : "Id";
+            ViewData["PriceSortParm"] = sortOrder == "Price" ? "price_desc" : "Price";
+
             var products = await _catalogService.GetAllProductsAsync();
             var queryableProducts = products.AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower();
+                queryableProducts = queryableProducts.Where(p =>
+                    p.Name.ToLower().Contains(searchQuery) ||
+                    p.ShortDescription.ToLower().Contains(searchQuery) ||
+                    p.Category.Name.ToLower().Contains(searchQuery) ||
+                    p.Feature.Author.ToLower().Contains(searchQuery) ||
+                    p.Feature.ISBN.ToLower().Contains(searchQuery) ||
+                    p.Feature.PublishedDate.ToString().ToLower().Contains(searchQuery) ||
+                    p.Id.ToString().ToLower().Contains(searchQuery) ||
+                    p.Price.ToString().ToLower().Contains(searchQuery));
+            }
+
+            switch (sortOrder)
+            {
+                case "Id":
+                    queryableProducts = queryableProducts.OrderBy(p => p.Id);
+                    break;
+                case "id_desc":
+                    queryableProducts = queryableProducts.OrderByDescending(p => p.Id);
+                    break;
+                case "Price":
+                    queryableProducts = queryableProducts.OrderBy(p => p.Price);
+                    break;
+                case "price_desc":
+                    queryableProducts = queryableProducts.OrderByDescending(p => p.Price);
+                    break;
+                default:
+                    queryableProducts = queryableProducts.OrderBy(p => p.Id);
+                    break;
+            }
+
+            int pageSize = 5;
             return View(PaginatedList<ProductViewModel>.Create(queryableProducts, pageNumber ?? 1, pageSize));
         }
 

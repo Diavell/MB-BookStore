@@ -23,12 +23,40 @@ namespace MB.Web.Controllers
             return View(await _userService.GetUsers());
         }
 
-        public async Task<IActionResult> AllUsers(int? pageNumber)
+        public async Task<IActionResult> AllUsers(string sortOrder, int? pageNumber, string searchQuery)
         {
-            int pageSize = 5;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = searchQuery;
+            ViewData["IdSortParm"] = sortOrder == "Id" ? "id_desc" : "Id";
+
             var users = await _userService.GetAllUsers();
-            var queryableUsers = users.AsQueryable();
-            return View(PaginatedList<UserViewModel>.Create(queryableUsers, pageNumber ?? 1, pageSize));
+            var queryableusers = users.AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower();
+                queryableusers = queryableusers.Where(u =>
+                    u.Id.ToString().ToLower().Contains(searchQuery) ||
+                    u.UserName.ToString().ToLower().Contains(searchQuery) ||
+                    u.Email.ToString().ToLower().Contains(searchQuery) ||
+                    u.City.ToString().ToLower().Contains(searchQuery));
+            }
+
+            switch (sortOrder)
+            {
+                case "Id":
+                    queryableusers = queryableusers.OrderBy(p => p.Id);
+                    break;
+                case "id_desc":
+                    queryableusers = queryableusers.OrderByDescending(p => p.Id);
+                    break;
+                default:
+                    queryableusers = queryableusers.OrderBy(p => p.Id);
+                    break;
+            }
+
+            int pageSize = 5;
+            return View(PaginatedList<UserViewModel>.Create(queryableusers, pageNumber ?? 1, pageSize));
         }
 
         public async Task<IActionResult> Update(string id)

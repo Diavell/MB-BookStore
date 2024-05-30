@@ -18,12 +18,38 @@ namespace MB.Web.Controllers
             _sharedIdentityService = sharedIdentityService;
         }
 
-        public async Task<IActionResult> Index(int? pageNumber)
+        public async Task<IActionResult> Index(string sortOrder, int? pageNumber, string searchQuery)
         {
-            int pageSize = 5;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = searchQuery;
+            ViewData["IdSortParm"] = sortOrder == "Id" ? "id_desc" : "Id";
+
             var categories = await _catalogService.GetAllCategoriesAsync();
-            var queryableCategories = categories.AsQueryable();
-            return View(PaginatedList<CategoryViewModel>.Create(queryableCategories, pageNumber ?? 1, pageSize));
+            var queryablecategories = categories.AsQueryable();
+
+            if (!String.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower();
+                queryablecategories = queryablecategories.Where(c =>
+                    c.Id.ToString().ToLower().Contains(searchQuery) ||
+                    c.Name.ToString().ToLower().Contains(searchQuery));
+            }
+
+            switch (sortOrder)
+            {
+                case "Id":
+                    queryablecategories = queryablecategories.OrderBy(p => p.Id);
+                    break;
+                case "id_desc":
+                    queryablecategories = queryablecategories.OrderByDescending(p => p.Id);
+                    break;
+                default:
+                    queryablecategories = queryablecategories.OrderBy(p => p.Id);
+                    break;
+            }
+
+            int pageSize = 5;
+            return View(PaginatedList<CategoryViewModel>.Create(queryablecategories, pageNumber ?? 1, pageSize));
         }
 
         public IActionResult Create()

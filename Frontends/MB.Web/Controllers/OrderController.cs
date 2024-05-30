@@ -86,17 +86,53 @@ namespace MB.Web.Controllers
             return View(PaginatedList<OrderViewModel>.Create(queryableOrders, pageNumber ?? 1, pageSize));
         }
 
-        public async Task<IActionResult> GetAllOrders(int? pageNumber)
+        public async Task<IActionResult> GetAllOrders(string sortOrder, int? pageNumber, string searchQuery)
         {
-            int pageSize = 5;
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["CurrentFilter"] = searchQuery;
+            ViewData["IdSortParm"] = sortOrder == "Id" ? "id_desc" : "Id";
+            ViewData["CreatedDateSortParm"] = sortOrder == "CreatedDate" ? "CreatedDate_desc" : "CreatedDate";
+            ViewData["BuyerIdSortParm"] = sortOrder == "BuyerId" ? "BuyerId_desc" : "BuyerId";
 
             var orders = await _orderService.GetAllOrders();
+            var queryableorders = orders.AsQueryable();
 
-            orders = orders.OrderByDescending(x => x.CreatedDate).ToList();
+            if (!String.IsNullOrEmpty(searchQuery))
+            {
+                searchQuery = searchQuery.ToLower();
+                queryableorders = queryableorders.Where(u =>
+                    u.Id.ToString().ToLower().Contains(searchQuery) ||
+                    u.CreatedDate.ToString().ToLower().Contains(searchQuery) ||
+                    u.BuyerId.ToString().ToLower().Contains(searchQuery));
+            }
 
-            var queryableOrders = orders.AsQueryable();
+            switch (sortOrder)
+            {
+                case "Id":
+                    queryableorders = queryableorders.OrderBy(p => p.Id);
+                    break;
+                case "id_desc":
+                    queryableorders = queryableorders.OrderByDescending(p => p.Id);
+                    break;
+                case "CreatedDate":
+                    queryableorders = queryableorders.OrderBy(p => p.CreatedDate);
+                    break;
+                case "CreatedDate_desc":
+                    queryableorders = queryableorders.OrderByDescending(p => p.CreatedDate);
+                    break;
+                case "BuyerId":
+                    queryableorders = queryableorders.OrderBy(p => p.BuyerId);
+                    break;
+                case "BuyerId_desc":
+                    queryableorders = queryableorders.OrderByDescending(p => p.BuyerId);
+                    break;
+                default:
+                    queryableorders = queryableorders.OrderByDescending(p => p.Id);
+                    break;
+            }
 
-            return View(PaginatedList<OrderViewModel>.Create(queryableOrders, pageNumber ?? 1, pageSize));
+            int pageSize = 5;
+            return View(PaginatedList<OrderViewModel>.Create(queryableorders, pageNumber ?? 1, pageSize));
         }
 
         public async Task<IActionResult> GetOrderById(int id)
